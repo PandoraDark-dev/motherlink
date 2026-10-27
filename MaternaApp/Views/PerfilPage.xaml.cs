@@ -1,10 +1,17 @@
+
 namespace MaternaApp.Views;
 
 public partial class PerfilPage : ContentPage
 {
-    public PerfilPage()
+    private readonly int gestanteId;
+    private readonly string nomeGestant;
+
+    public PerfilPage(int gestanteId, string nomeGestant)
     {
         InitializeComponent();
+
+        this.gestanteId = gestanteId;
+        this.nomeGestant = nomeGestant;
     }
 
     private async void OnAlterarFotoTapped(object? sender, EventArgs e)
@@ -22,13 +29,17 @@ public partial class PerfilPage : ContentPage
         }
         catch (Exception)
         {
-            await DisplayAlertAsync("Aviso", "Não foi possível carregar a imagem.", "OK");
+            await DisplayAlertAsync(
+                "Aviso",
+                "Não foi possível carregar a imagem.",
+                "OK");
         }
     }
 
-    private async void OnInicioTapped(object? sender, EventArgs e)
+    private void OnInicioTapped(object? sender, EventArgs e)
     {
-        await Navigation.PushAsync(new HomeGestantePage());
+        Application.Current!.MainPage = new NavigationPage(
+            new HomeGestantePage(gestanteId, nomeGestant));
     }
 
     private async void OnAgendaTapped(object? sender, EventArgs e)
@@ -50,11 +61,13 @@ public partial class PerfilPage : ContentPage
 
         if (app?.Windows.Count > 0)
         {
-            app.Windows[0].Page = new NavigationPage(new Selecaoperfilpage());
+            app.Windows[0].Page =
+                new NavigationPage(new Selecaoperfilpage());
         }
         else if (app != null)
         {
-            app.OpenWindow(new Window(new NavigationPage(new Selecaoperfilpage())));
+            app.OpenWindow(
+                new Window(new NavigationPage(new Selecaoperfilpage())));
         }
     }
 }

@@ -2,9 +2,15 @@ namespace MaternaApp.Views;
 
 public partial class HomeGestantePage : ContentPage
 {
-    public HomeGestantePage()
+    public int GestanteId { get; }
+    public string NomeGestante { get; }
+
+    public HomeGestantePage(int gestanteId, string nomeGestante)
     {
         InitializeComponent();
+
+        GestanteId = gestanteId;
+        NomeGestante = nomeGestante;
     }
 
     private async void OnAgendaTapped(object sender, EventArgs e)
@@ -24,6 +30,6 @@ public partial class HomeGestantePage : ContentPage
 
     private async void OnPerfilTapped(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new PerfilPage());
+        await Navigation.PushAsync(new NavigationPage(new PerfilPage(GestanteId, NomeGestante)));
     }
 }

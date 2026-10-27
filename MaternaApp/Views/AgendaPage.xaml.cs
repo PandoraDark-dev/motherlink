@@ -14,6 +14,6 @@ public partial class AgendaPage : ContentPage
 
     private async void OnPerfilTapped(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new PerfilPage());
+        await Navigation.PopToRootAsync();
     }
 }
