@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MaternaApp.Views.Selecaoperfilpage"
+             BackgroundColor="White"
+             NavigationPage.HasNavigationBar="False">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20">
+
+            <VerticalStackLayout
+                BackgroundColor="#1A9E85"
+                Padding="20,30"
+                Spacing="5">
+
+                <Image Source="logo_motherlink.png"
+                       HeightRequest="150"
+                       Aspect="AspectFit"
+                       HorizontalOptions="Center"/>
+
+                <Label Text="Sistema de Saúde Pública - UBS"
+                       FontSize="14"
+                       TextColor="#D1F2EB"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout
+                Padding="20"
+                Spacing="20">
+
+                <Label Text="QUEM ESTÁ ACESSANDO?"
+                       FontSize="12"
+                       FontAttributes="Bold"
+                       TextColor="#7F8C8D"
+                       HorizontalOptions="Center"/>
+
+                <Border Stroke="#1A9E85"
+                        StrokeShape="RoundRectangle 15"
+                        BackgroundColor="#E6F4F1"
+                        Padding="15">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnGestanteTapped"/>
+                    </Border.GestureRecognizers>
+
+                    <HorizontalStackLayout Spacing="15">
+
+                        <Border StrokeShape="RoundRectangle 10"
+                                HeightRequest="50"
+                                WidthRequest="50"
+                                BackgroundColor="#D0EAE4"
+                                Stroke="Transparent">
+
+                            <Label Text="🤰"
+                                   FontSize="24"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Border>
+
+                        <VerticalStackLayout
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand">
+
+                            <Label Text="Sou Gestante"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#2C3E50"/>
+
+                            <Label Text="Acesso com CPF ou Cartão do SUS"
+                                   FontSize="12"
+                                   TextColor="#7F8C8D"/>
+                        </VerticalStackLayout>
+
+                        <Label Text="›"
+                               FontSize="24"
+                               TextColor="#1A9E85"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Border>
+
+                <Border Stroke="#8E52F5"
+                        StrokeShape="RoundRectangle 15"
+                        BackgroundColor="#F3EBFF"
+                        Padding="15">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnProfissionalTapped"/>
+                    </Border.GestureRecognizers>
+
+                    <HorizontalStackLayout Spacing="15">
+
+                        <Border StrokeShape="RoundRectangle 10"
+                                HeightRequest="50"
+                                WidthRequest="50"
+                                BackgroundColor="#E2D0FC"
+                                Stroke="Transparent">
+
+                            <Label Text="👩‍⚕️"
+                                   FontSize="24"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Border>
+
+                        <VerticalStackLayout
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand">
+
+                            <Label Text="Sou Profissional de Saúde"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#2C3E50"/>
+
+                            <Label Text="Acesso com login e senha da UBS"
+                                   FontSize="12"
+                                   TextColor="#7F8C8D"/>
+                        </VerticalStackLayout>
+
+                        <Label Text="›"
+                               FontSize="24"
+                               TextColor="#8E52F5"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </Border>
+
+                <Label Text="v1.0 - Dados protegidos pela LGPD"
+                       FontSize="11"
+                       TextColor="#BDC3C7"
+                       HorizontalOptions="Center"
+                       Margin="0,20,0,0"/>
+
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

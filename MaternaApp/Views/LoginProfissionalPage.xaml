@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MaternaApp.Views.LoginProfissionalPage"
+             BackgroundColor="#F8F9FA"
+             NavigationPage.HasNavigationBar="False">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20">
+
+            <!-- Cabeçalho -->
+            <VerticalStackLayout BackgroundColor="#8E52F5" Padding="20,40,20,25" Spacing="15">
+                <Button Text="‹ Voltar" TextColor="White" BackgroundColor="Transparent" HorizontalOptions="Start" Clicked="OnVoltarClicked" FontSize="16" Padding="0"/>
+
+                <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+                    <Border StrokeShape="RoundRectangle 20" HeightRequest="44" WidthRequest="44" BackgroundColor="#A06BF6" Stroke="Transparent">
+                        <Label Text="👩‍⚕️" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+                    <VerticalStackLayout VerticalOptions="Center">
+                        <Label Text="Acesso do Profissional" FontSize="20" FontAttributes="Bold" TextColor="White"/>
+                        <Label Text="Área restrita de atendimento" FontSize="12" TextColor="#E2D0FC"/>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- Formulário -->
+            <VerticalStackLayout Padding="20" Spacing="15">
+                <Label Text="IDENTIFICAÇÃO PROFISSIONAL" FontSize="11" FontAttributes="Bold" TextColor="#7F8C8D" CharacterSpacing="1"/>
+
+                <!-- CPF / Registro -->
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="CPF OU REGISTRO" FontSize="11" FontAttributes="Bold" TextColor="#2C3E50"/>
+                    <Border Stroke="#BDC3C7" StrokeShape="RoundRectangle 10" Padding="12,0" HeightRequest="50">
+                        <Entry x:Name="txtIdentificacao" 
+               Placeholder="Digite seu CPF ou registro" 
+               TextColor="#2C3E50" 
+               PlaceholderColor="#95A5A6"
+               VerticalOptions="Center"/>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Senha com Olho Alternável -->
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="SENHA" FontSize="11" FontAttributes="Bold" TextColor="#2C3E50"/>
+                    <Border Stroke="#BDC3C7" StrokeShape="RoundRectangle 10" Padding="12,0" HeightRequest="50">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Entry x:Name="txtSenhaProfissional" 
+                   Placeholder="Digite sua senha" 
+                   TextColor="#2C3E50" 
+                   PlaceholderColor="#95A5A6"
+                   IsPassword="True" 
+                   VerticalOptions="Center"/>
+                            <Label x:Name="lblOlho" Grid.Column="1" Text="👁" FontSize="18" TextColor="#7F8C8D" VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnMostrarSenhaTapped"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Credenciais Demo -->
+                <Border Stroke="Transparent" BackgroundColor="#F3EBFF" StrokeShape="RoundRectangle 12" Padding="15">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Credenciais de demonstração:" FontAttributes="Bold" TextColor="#2C3E50" FontSize="12"/>
+                        <Label Text="Login: admin" TextColor="#555" FontSize="11"/>
+                        <Label Text="Senha: admin123" TextColor="#555" FontSize="11"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Botão Entrar -->
+                <Button Text="Entrar" 
+                        BackgroundColor="#8E52F5" 
+                        TextColor="White" 
+                        FontAttributes="Bold" 
+                        FontSize="16" 
+                        CornerRadius="12" 
+                        HeightRequest="50" 
+                        Clicked="OnEntrarProfissionalClicked"/>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
