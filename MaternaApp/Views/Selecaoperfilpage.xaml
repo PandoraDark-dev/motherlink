@@ -9,7 +9,7 @@
         <VerticalStackLayout Spacing="20">
 
             <VerticalStackLayout
-                BackgroundColor="#1A9E85"
+                BackgroundColor="#00897B"
                 Padding="20,30"
                 Spacing="5">
 
