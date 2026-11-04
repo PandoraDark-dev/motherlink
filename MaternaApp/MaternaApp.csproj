@@ -44,6 +44,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Update="Views\GuiaPartoPage.xaml.cs">
+		  <DependentUpon>GuiaPartoPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Views\GuiaSemanarioPage.xaml.cs">
+		  <DependentUpon>GuiaSemanarioPage.xaml</DependentUpon>
+		</Compile>
 		<Compile Update="Views\LoginGestantePage.xaml.cs">
 			<DependentUpon>LoginGestantePage.xaml</DependentUpon>
 		</Compile>
@@ -55,6 +61,9 @@
 		</Compile>
 		<Compile Update="Views\AgendaPage.xaml.cs">
 			<DependentUpon>AgendaPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Views\GuiaSuplementosPage.xaml.cs">
+		  <DependentUpon>GuiaSuplementosPage.xaml</DependentUpon>
 		</Compile>
 		<Compile Update="Views\PainelProfissionalPage.xaml.cs">
 			<DependentUpon>PainelProfissionalPage.xaml</DependentUpon>
@@ -68,6 +77,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<MauiXaml Update="Views\GuiaDiarioPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\GuiaPartoPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\GuiaSemanarioPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\LoginGestantePage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

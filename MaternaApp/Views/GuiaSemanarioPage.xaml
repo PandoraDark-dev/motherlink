@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="MaternaApp.Views.GuiaSemanarioPage"
+    Title="Guia Pré-Natal"
+    BackgroundColor="#F0F8F6"
+    Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <VerticalStackLayout
+            Grid.Row="0"
+            BackgroundColor="#00897B"
+            Padding="20,18,20,0"
+            Spacing="14">
+
+            <Label
+                Text="Guia Pré-Natal"
+                FontSize="25"
+                FontAttributes="Bold"
+                TextColor="White" />
+
+            <ScrollView Orientation="Horizontal">
+                <HorizontalStackLayout
+                    Spacing="10"
+                    Padding="0,0,0,12">
+
+                    <Button
+                        Text="Diário"
+                        Clicked="OnDiarioClicked"
+                        BackgroundColor="Transparent"
+                        TextColor="White"
+                        Padding="12,8" />
+
+                    <Button
+                        Text="Semanário"
+                        BackgroundColor="#F0F8F6"
+                        TextColor="#278F80"
+                        CornerRadius="12"
+                        Padding="14,8" />
+
+                    <Button
+                        Text="Suplementos"
+                        Clicked="OnSuplementosClicked"
+                        BackgroundColor="Transparent"
+                        TextColor="White"
+                        Padding="8,8" />
+
+                    <Button
+                        Text="Plano de Parto"
+                        Clicked="OnPlanoPartoClicked"
+                        BackgroundColor="Transparent"
+                        TextColor="White"
+                        Padding="8,8" />
+
+                </HorizontalStackLayout>
+            </ScrollView>
+        </VerticalStackLayout>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="16" Spacing="14">
+
+                <Border
+                    BackgroundColor="White"
+                    Stroke="#E5EFEC"
+                    StrokeThickness="1"
+                    Padding="18"
+                    StrokeShape="RoundRectangle 20">
+
+                    <VerticalStackLayout Spacing="14">
+
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label
+                                Text="SEMANA DA GESTAÇÃO"
+                                FontSize="14"
+                                FontAttributes="Bold"
+                                TextColor="#77858F"
+                                VerticalOptions="Center" />
+
+                            <Label
+                                x:Name="SemanaAtualLabel"
+                                Grid.Column="1"
+                                Text="24ª"
+                                FontSize="22"
+                                FontAttributes="Bold"
+                                TextColor="#2F9E8F" />
+                        </Grid>
+
+                        <ScrollView Orientation="Horizontal">
+                            <HorizontalStackLayout Spacing="6">
+
+                                <Button x:Name="BotaoSemana6" Text="6" Clicked="OnSemanaClicked" BackgroundColor="#F0F3F7" TextColor="#65717B" CornerRadius="15" Padding="14,12" />
+                                <Button x:Name="BotaoSemana8" Text="8" Clicked="OnSemanaClicked" BackgroundColor="#F0F3F7" TextColor="#65717B" CornerRadius="15" Padding="14,12" />
+                                <Button x:Name="BotaoSemana10" Text="10" Clicked="OnSemanaClicked" BackgroundColor="#F0F3F7" TextColor="#65717B" CornerRadius="15" Padding="12,12" />
+                                <Button x:Name="BotaoSemana12" Text="12" Clicked="OnSemanaClicked" BackgroundColor="#F0F3F7" TextColor="#65717B" CornerRadius="15" Padding="12,12" />
+                                <Button x:Name="BotaoSemana16" Text="16" Clicked="OnSemanaClicked" BackgroundColor="#F0F3F7" TextColor="#65717B" CornerRadius="15" Padding="12,12" />
+                                <Button x:Name="BotaoSemana20" Text="20" Clicked="OnSemanaClicked" BackgroundColor="#F0F3F7" TextColor="#65717B" CornerRadius="15" Padding="12,12" />
+                                <Button x:Name="BotaoSemana24" Text="24" Clicked="OnSemanaClicked" BackgroundColor="#F0F3F7" TextColor="#65717B" CornerRadius="15" Padding="12,12" />
+                                <Button x:Name="BotaoSemana28" Text="28" Clicked="OnSemanaClicked" BackgroundColor="#F0F3F7" TextColor="#65717B" CornerRadius="15" Padding="12,12" />
+                                <Button x:Name="BotaoSemana32" Text="32" Clicked="OnSemanaClicked" BackgroundColor="#F0F3F7" TextColor="#65717B" CornerRadius="15" Padding="12,12" />
+                                <Button x:Name="BotaoSemana36" Text="36" Clicked="OnSemanaClicked" BackgroundColor="#F0F3F7" TextColor="#65717B" CornerRadius="15" Padding="12,12" />
+                                <Button x:Name="BotaoSemana40" Text="40" Clicked="OnSemanaClicked" BackgroundColor="#F0F3F7" TextColor="#65717B" CornerRadius="15" Padding="12,12" />
+
+                            </HorizontalStackLayout>
+                        </ScrollView>
+
+                        <Button
+                            Text="← Você está aqui"
+                            Clicked="OnVoceEstaAquiClicked"
+                            BackgroundColor="Transparent"
+                            TextColor="#2F9E8F"
+                            FontSize="13"
+                            HorizontalOptions="Start"
+                            Padding="0,4" />
+
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border
+                    BackgroundColor="#EAF7F4"
+                    Stroke="#E0F0EC"
+                    Padding="20"
+                    StrokeShape="RoundRectangle 20">
+
+                    <VerticalStackLayout
+                        Spacing="10"
+                        HorizontalOptions="Center">
+
+                        <Label
+                            x:Name="BebeImagemLabel"
+                            Text="🌽"
+                            FontSize="40"
+                            FontAttributes="Bold"
+                            TextColor="#2F9E8F"
+                            HorizontalTextAlignment="Center" />
+
+                        <Label
+                            x:Name="SemanaTituloLabel"
+                            Text="Semana 24"
+                            FontSize="23"
+                            FontAttributes="Bold"
+                            TextColor="#263746"
+                            HorizontalTextAlignment="Center" />
+
+                        <Label
+                            x:Name="TamanhoLabel"
+                            Text="Tamanho de uma espiga de milho"
+                            FontSize="14"
+                            TextColor="#77858F"
+                            HorizontalTextAlignment="Center" />
+
+                        <Label
+                            Text="PESO APROX."
+                            FontSize="12"
+                            TextColor="#9AA7B3"
+                            Margin="0,8,0,0" />
+
+                        <Label
+                            x:Name="PesoLabel"
+                            Text="~600 g"
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            TextColor="#263746"
+                            HorizontalTextAlignment="Center" />
+
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border
+                    BackgroundColor="White"
+                    Stroke="#E5EFEC"
+                    Padding="18"
+                    StrokeShape="RoundRectangle 20">
+
+                    <VerticalStackLayout Spacing="12">
+
+                        <Label
+                            Text="DESENVOLVIMENTO"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            TextColor="#77858F" />
+
+                        <Label
+                            x:Name="Desenvolvimento1Label"
+                            Text="✦ Pulmões em desenvolvimento"
+                            FontSize="15"
+                            TextColor="#59666F" />
+
+                        <Label
+                            x:Name="Desenvolvimento2Label"
+                            Text="✦ Reage à luz e a sons"
+                            FontSize="15"
+                            TextColor="#59666F" />
+
+                        <Label
+                            Text="SINTOMAS COMUNS"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            TextColor="#77858F"
+                            Margin="0,8,0,0" />
+
+                        <FlexLayout
+                            x:Name="SintomasFlex"
+                            Wrap="Wrap"
+                            Direction="Row">
+
+                            <Border
+                                BackgroundColor="#FFF2D9"
+                                StrokeThickness="0"
+                                Padding="12,7"
+                                Margin="0,0,8,6"
+                                StrokeShape="RoundRectangle 18">
+                                <Label
+                                    Text="Cansaço"
+                                    FontSize="12"
+                                    TextColor="#B58A3C" />
+                            </Border>
+
+                            <Border
+                                BackgroundColor="#FFF2D9"
+                                StrokeThickness="0"
+                                Padding="12,7"
+                                Margin="0,0,8,6"
+                                StrokeShape="RoundRectangle 18">
+                                <Label
+                                    Text="Inchaço nos pés"
+                                    FontSize="12"
+                                    TextColor="#B58A3C" />
+                            </Border>
+
+                        </FlexLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border
+                    BackgroundColor="White"
+                    Stroke="#E5EFEC"
+                    Padding="18"
+                    StrokeShape="RoundRectangle 20">
+
+                    <VerticalStackLayout Spacing="10">
+
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label
+                                Text="PROGRESSO"
+                                FontSize="14"
+                                FontAttributes="Bold"
+                                TextColor="#77858F" />
+
+                            <Label
+                                x:Name="ProgressoTextoLabel"
+                                Grid.Column="1"
+                                Text="24 de 40 semanas"
+                                FontSize="12"
+                                TextColor="#9AA7B3" />
+                        </Grid>
+
+                        <ProgressBar
+                            x:Name="ProgressoGestacao"
+                            Progress="0.6"
+                            ProgressColor="#2F9E8F"
+                            BackgroundColor="#EDF1F5"
+                            HeightRequest="12" />
+
+                        <Grid ColumnDefinitions="*,*,*">
+                            <Label Text="1º Trimestre" FontSize="11" TextColor="#9AA7B3" />
+                            <Label Grid.Column="1" Text="2º Trimestre" FontSize="11" HorizontalTextAlignment="Center" TextColor="#9AA7B3" />
+                            <Label Grid.Column="2" Text="3º Trimestre" FontSize="11" HorizontalTextAlignment="End" TextColor="#9AA7B3" />
+                        </Grid>
+
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid
+            Grid.Row="2"
+            BackgroundColor="White"
+            Padding="8"
+            ColumnDefinitions="*,*,*,*,*">
+
+            <VerticalStackLayout Grid.Column="0" Spacing="3" HorizontalOptions="Fill">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnInicioTapped" />
+                </VerticalStackLayout.GestureRecognizers>
+                <Label Text="⌂" FontSize="24" HorizontalTextAlignment="Center" TextColor="#9AA7B3" />
+                <Label Text="Início" FontSize="11" HorizontalTextAlignment="Center" TextColor="#9AA7B3" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="1" Spacing="3" HorizontalOptions="Fill">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnAgendaMenuTapped" />
+                </VerticalStackLayout.GestureRecognizers>
+                <Label Text="▢" FontSize="24" HorizontalTextAlignment="Center" TextColor="#9AA7B3" />
+                <Label Text="Agenda" FontSize="11" HorizontalTextAlignment="Center" TextColor="#9AA7B3" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="2" Spacing="3" HorizontalOptions="Fill">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnChatMenuTapped" />
+                </VerticalStackLayout.GestureRecognizers>
+                <Label Text="◉" FontSize="24" HorizontalTextAlignment="Center" TextColor="#9AA7B3" />
+                <Label Text="Chat" FontSize="11" HorizontalTextAlignment="Center" TextColor="#9AA7B3" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="3" Spacing="3" HorizontalOptions="Fill">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnGuiaMenuTapped" />
+                </VerticalStackLayout.GestureRecognizers>
+                <Label Text="▮" FontSize="24" HorizontalTextAlignment="Center" TextColor="#2F9E8F" />
+                <Label Text="Guia" FontSize="11" HorizontalTextAlignment="Center" TextColor="#2F9E8F" FontAttributes="Bold" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="4" Spacing="3" HorizontalOptions="Fill">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnPerfilMenuTapped" />
+                </VerticalStackLayout.GestureRecognizers>
+                <Label Text="♙" FontSize="24" HorizontalTextAlignment="Center" TextColor="#9AA7B3" />
+                <Label Text="Perfil" FontSize="11" HorizontalTextAlignment="Center" TextColor="#9AA7B3" />
+            </VerticalStackLayout>
+
+        </Grid>
+    </Grid>
+</ContentPage>

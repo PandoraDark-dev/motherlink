@@ -25,7 +25,7 @@ public partial class HomeGestantePage : ContentPage
 
     private async void OnGuiaTapped(object sender, EventArgs e)
     {
-        // await Navigation.PushAsync(new GuiaPage());
+        await Navigation.PushAsync(new GuiaDiarioPage());
     }
 
     private async void OnPerfilTapped(object sender, EventArgs e)

@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MaternaApp.Views.LoginGestantePage"
-             BackgroundColor="#F5F8F7"
+             BackgroundColor="#F2F9F8"
              NavigationPage.HasNavigationBar="False">
 
     <Grid RowDefinitions="Auto,*">
