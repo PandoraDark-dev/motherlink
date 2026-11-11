@@ -125,7 +125,7 @@ public partial class GuiaSemanarioPage : ContentPage
 
     private async void OnPlanoPartoClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new GuiaPartoPage());
+        await Navigation.PushAsync(new GuiaPartoPage(GestanteId, NomeGestante));
     }
 
     private async void OnInicioTapped(object sender, TappedEventArgs e)
@@ -135,7 +135,7 @@ public partial class GuiaSemanarioPage : ContentPage
 
     private async void OnAgendaMenuTapped(object sender, TappedEventArgs e)
     {
-        await Navigation.PushAsync(new AgendaPage());
+        await Navigation.PushAsync(new AgendaPage(GestanteId));
     }
 
     private async void OnChatMenuTapped(object sender, TappedEventArgs e)

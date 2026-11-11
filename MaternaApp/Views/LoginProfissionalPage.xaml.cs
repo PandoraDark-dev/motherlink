@@ -21,7 +21,6 @@ public partial class LoginProfissionalPage : ContentPage
         lblOlho.Opacity = txtSenhaProfissional.IsPassword ? 1.0 : 0.5;
     }
 
-
     private async void OnEntrarProfissionalClicked(object sender, EventArgs e)
     {
         var identificacao = txtIdentificacao.Text?.Trim();
@@ -55,20 +54,11 @@ public partial class LoginProfissionalPage : ContentPage
             }
 
             Application.Current!.MainPage =
-                new NavigationPage(new PainelProfissionalPage());
-        }
-        catch (TaskCanceledException)
-        {
-            await DisplayAlert("Erro de conexão", "A API demorou demais para responder. Verifique se está rodando na porta 5240.", "OK");
-        }
-        catch (HttpRequestException ex)
-        {
-            await DisplayAlert("Erro de conexão", ex.Message, "OK");
+                new NavigationPage(new PainelProfissionalPage(resultado.Id));
         }
         catch (Exception ex)
         {
             await DisplayAlert("Erro", ex.Message, "OK");
         }
     }
-
 }

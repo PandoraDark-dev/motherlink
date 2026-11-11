@@ -1,17 +1,62 @@
 
+using MaternaApp.Services;
+
 namespace MaternaApp.Views;
 
 public partial class PerfilPage : ContentPage
 {
+    private readonly ApiService _api = new();
     private readonly int gestanteId;
-    private readonly string nomeGestant;
+    private readonly string nomeGestante;
 
-    public PerfilPage(int gestanteId, string nomeGestant)
+    public PerfilPage(int gestanteId, string nomeGestante)
     {
         InitializeComponent();
 
         this.gestanteId = gestanteId;
-        this.nomeGestant = nomeGestant;
+        this.nomeGestante = nomeGestante;
+
+        lblNomeCabecalho.Text = nomeGestante;
+        lblNome.Text = nomeGestante;
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await CarregarPerfil();
+    }
+
+    private async Task CarregarPerfil()
+    {
+        try
+        {
+            var gestante = await _api.BuscarGestantePorId(gestanteId);
+
+            if (gestante == null)
+            {
+                await DisplayAlert("Erro", "Gestante não encontrada.", "OK");
+                return;
+            }
+
+            lblNomeCabecalho.Text = gestante.Nome;
+            lblNome.Text = gestante.Nome;
+            lblCpf.Text = gestante.CPF;
+            lblCartaoSUS.Text = gestante.CartaoSUS;
+            lblDum.Text = gestante.DUM.ToString("dd/MM/yyyy");
+            lblDpp.Text = gestante.DPP.ToString("dd/MM/yyyy");
+
+            var diasGestacao = Math.Max(0, (DateTime.Today - gestante.DUM.Date).Days);
+            var semanas = diasGestacao / 7;
+
+            lblSemanaCabecalho.Text = $"Gestante · {semanas}ª semana";
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert(
+                "Erro",
+                $"Não foi possível carregar seu perfil.\n{ex.Message}",
+                "OK");
+        }
     }
 
     private async void OnAlterarFotoTapped(object? sender, EventArgs e)
@@ -27,7 +72,7 @@ public partial class PerfilPage : ContentPage
                 FotoPerfilImage.Source = ImageSource.FromStream(() => stream);
             }
         }
-        catch (Exception)
+        catch
         {
             await DisplayAlertAsync(
                 "Aviso",
@@ -39,20 +84,21 @@ public partial class PerfilPage : ContentPage
     private void OnInicioTapped(object? sender, EventArgs e)
     {
         Application.Current!.MainPage = new NavigationPage(
-            new HomeGestantePage(gestanteId, nomeGestant));
+            new HomeGestantePage(gestanteId, nomeGestante));
     }
 
     private async void OnAgendaTapped(object? sender, EventArgs e)
     {
-        await Navigation.PushAsync(new AgendaPage());
+        await Navigation.PushAsync(new AgendaPage(gestanteId));
     }
 
     private void OnChatTapped(object? sender, EventArgs e)
     {
     }
 
-    private void OnGuiaTapped(object? sender, EventArgs e)
+    private async void OnGuiaTapped(object? sender, EventArgs e)
     {
+        await Navigation.PushAsync(new GuiaDiarioPage());
     }
 
     private void OnSairTapped(object? sender, EventArgs e)

@@ -7,55 +7,108 @@
 
     <Grid RowDefinitions="Auto, *, Auto">
 
-        <!-- Topo Verde com Foto -->
         <Grid Grid.Row="0" BackgroundColor="#3AAFA9" Padding="20,25" ColumnDefinitions="*, Auto">
             <VerticalStackLayout VerticalOptions="Center">
-                <Label Text="Maria Silva" FontSize="20" FontAttributes="Bold" TextColor="White" />
-                <Label Text="Gestante · 24ª semana" FontSize="13" TextColor="White" Opacity="0.9" />
+                <Label x:Name="lblNomeCabecalho"
+                       Text="Carregando..."
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="White" />
+                <Label x:Name="lblSemanaCabecalho"
+                       Text="Gestante"
+                       FontSize="13"
+                       TextColor="White"
+                       Opacity="0.9" />
             </VerticalStackLayout>
 
-            <Border Grid.Column="1" HeightRequest="55" WidthRequest="55" StrokeShape="RoundRectangle 28" Stroke="White" StrokeThickness="2" BackgroundColor="#E0F2FE">
+            <Border Grid.Column="1"
+                    HeightRequest="55"
+                    WidthRequest="55"
+                    StrokeShape="RoundRectangle 28"
+                    Stroke="White"
+                    StrokeThickness="2"
+                    BackgroundColor="#E0F2FE">
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnAlterarFotoTapped"/>
                 </Border.GestureRecognizers>
                 <Grid>
-                    <Image x:Name="FotoPerfilImage" Source="user_placeholder.png" Aspect="AspectFill" />
-                    <Label Text="📷" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center" InputTransparent="True"/>
+                    <Image x:Name="FotoPerfilImage"
+                           Source="user_placeholder.png"
+                           Aspect="AspectFill" />
+                    <Label Text="📷"
+                           FontSize="14"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           InputTransparent="True"/>
                 </Grid>
             </Border>
         </Grid>
 
-        <!-- Conteúdo Principal -->
         <ScrollView Grid.Row="1">
             <VerticalStackLayout Spacing="15" Padding="15">
 
-                <!-- Dados Pessoais -->
-                <Border BackgroundColor="White" Stroke="Transparent" StrokeShape="RoundRectangle 16" Padding="15">
+                <Border BackgroundColor="White"
+                        Stroke="Transparent"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="15">
                     <VerticalStackLayout Spacing="10">
-                        <Label Text="DADOS PESSOAIS" FontSize="11" FontAttributes="Bold" TextColor="#5A6B7C" />
+                        <Label Text="DADOS PESSOAIS"
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               TextColor="#5A6B7C" />
+
                         <Grid ColumnDefinitions="*, Auto">
                             <Label Text="Nome" TextColor="#7F8C8D"/>
-                            <Label Grid.Column="1" Text="Maria Silva" FontAttributes="Bold" TextColor="#2C3E50"/>
+                            <Label x:Name="lblNome"
+                                   Grid.Column="1"
+                                   FontAttributes="Bold"
+                                   TextColor="#2C3E50"/>
                         </Grid>
+
                         <Grid ColumnDefinitions="*, Auto">
                             <Label Text="CPF" TextColor="#7F8C8D"/>
-                            <Label Grid.Column="1" Text="***.***.***-**" FontAttributes="Bold" TextColor="#2C3E50"/>
+                            <Label x:Name="lblCpf"
+                                   Grid.Column="1"
+                                   FontAttributes="Bold"
+                                   TextColor="#2C3E50"/>
                         </Grid>
+
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Label Text="Cartão SUS" TextColor="#7F8C8D"/>
+                            <Label x:Name="lblCartaoSUS"
+                                   Grid.Column="1"
+                                   FontAttributes="Bold"
+                                   TextColor="#2C3E50"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Label Text="DUM" TextColor="#7F8C8D"/>
+                            <Label x:Name="lblDum"
+                                   Grid.Column="1"
+                                   FontAttributes="Bold"
+                                   TextColor="#2C3E50"/>
+                        </Grid>
+
                         <Grid ColumnDefinitions="*, Auto">
                             <Label Text="Data Prov. Parto" TextColor="#7F8C8D"/>
-                            <Label Grid.Column="1" Text="15/02/2025" FontAttributes="Bold" TextColor="#2C3E50"/>
-                        </Grid>
-                        <Grid ColumnDefinitions="*, Auto">
-                            <Label Text="UBS Vinculada" TextColor="#7F8C8D"/>
-                            <Label Grid.Column="1" Text="UBS Bairro Novo" FontAttributes="Bold" TextColor="#2C3E50"/>
+                            <Label x:Name="lblDpp"
+                                   Grid.Column="1"
+                                   FontAttributes="Bold"
+                                   TextColor="#2C3E50"/>
                         </Grid>
                     </VerticalStackLayout>
                 </Border>
 
-                <!-- Configurações -->
-                <Border BackgroundColor="White" Stroke="Transparent" StrokeShape="RoundRectangle 16" Padding="15">
+                <Border BackgroundColor="White"
+                        Stroke="Transparent"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="15">
                     <VerticalStackLayout Spacing="12">
-                        <Label Text="CONFIGURAÇÕES" FontSize="11" FontAttributes="Bold" TextColor="#5A6B7C" />
+                        <Label Text="CONFIGURAÇÕES"
+                               FontSize="11"
+                               FontAttributes="Bold"
+                               TextColor="#5A6B7C" />
+
                         <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
                             <Label Text="🔔" FontSize="18"/>
                             <VerticalStackLayout Grid.Column="1">
@@ -64,6 +117,7 @@
                             </VerticalStackLayout>
                             <Label Grid.Column="2" Text="›" TextColor="#BDC3C7"/>
                         </Grid>
+
                         <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
                             <Label Text="🔒" FontSize="18"/>
                             <VerticalStackLayout Grid.Column="1">
@@ -72,6 +126,7 @@
                             </VerticalStackLayout>
                             <Label Grid.Column="2" Text="›" TextColor="#BDC3C7"/>
                         </Grid>
+
                         <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
                             <Label Text="📄" FontSize="18"/>
                             <VerticalStackLayout Grid.Column="1">
@@ -80,6 +135,7 @@
                             </VerticalStackLayout>
                             <Label Grid.Column="2" Text="›" TextColor="#BDC3C7"/>
                         </Grid>
+
                         <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
                             <Label Text="❓" FontSize="18"/>
                             <VerticalStackLayout Grid.Column="1">
@@ -91,19 +147,28 @@
                     </VerticalStackLayout>
                 </Border>
 
-                <!-- Botão Sair -->
-                <Border BackgroundColor="#FFF5F5" Stroke="#FFE0E0" StrokeShape="RoundRectangle 12" Padding="12">
+                <Border BackgroundColor="#FFF5F5"
+                        Stroke="#FFE0E0"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="12">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnSairTapped"/>
                     </Border.GestureRecognizers>
-                    <Label Text="Sair" FontAttributes="Bold" TextColor="#E74C3C" HorizontalOptions="Center" InputTransparent="True" />
+                    <Label Text="Sair"
+                           FontAttributes="Bold"
+                           TextColor="#E74C3C"
+                           HorizontalOptions="Center"
+                           InputTransparent="True" />
                 </Border>
 
             </VerticalStackLayout>
         </ScrollView>
 
-        <!-- Menu Inferior -->
-        <Grid Grid.Row="2" BackgroundColor="White" HeightRequest="60" ColumnDefinitions="*, *, *, *, *">
+        <Grid Grid.Row="2"
+              BackgroundColor="White"
+              HeightRequest="60"
+              ColumnDefinitions="*, *, *, *, *">
+
             <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                 <VerticalStackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnInicioTapped"/>
@@ -111,6 +176,7 @@
                 <Label Text="🏠" FontSize="16" HorizontalOptions="Center"/>
                 <Label Text="Início" FontSize="10" TextColor="#7F8C8D" HorizontalOptions="Center"/>
             </VerticalStackLayout>
+
             <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">
                 <VerticalStackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnAgendaTapped"/>
@@ -118,14 +184,23 @@
                 <Label Text="📅" FontSize="16" HorizontalOptions="Center"/>
                 <Label Text="Agenda" FontSize="10" TextColor="#7F8C8D" HorizontalOptions="Center"/>
             </VerticalStackLayout>
+
             <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnChatTapped"/>
+                </VerticalStackLayout.GestureRecognizers>
                 <Label Text="💬" FontSize="16" HorizontalOptions="Center"/>
                 <Label Text="Chat" FontSize="10" TextColor="#7F8C8D" HorizontalOptions="Center"/>
             </VerticalStackLayout>
+
             <VerticalStackLayout Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnGuiaTapped"/>
+                </VerticalStackLayout.GestureRecognizers>
                 <Label Text="📖" FontSize="16" HorizontalOptions="Center"/>
                 <Label Text="Guia" FontSize="10" TextColor="#7F8C8D" HorizontalOptions="Center"/>
             </VerticalStackLayout>
+
             <VerticalStackLayout Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center">
                 <Label Text="👤" FontSize="16" HorizontalOptions="Center"/>
                 <Label Text="Perfil" FontSize="10" TextColor="#1A9E85" FontAttributes="Bold" HorizontalOptions="Center"/>

@@ -126,9 +126,7 @@ public partial class GuiaPartoPage : ContentPage
         };
 
         foreach (var item in nomes)
-        {
             texto.AppendLine($"{item.Value}: {_preferencias.GetValueOrDefault(item.Key, "Não informado")}");
-        }
 
         await Share.Default.RequestAsync(new ShareTextRequest
         {
@@ -159,7 +157,7 @@ public partial class GuiaPartoPage : ContentPage
 
     private async void OnAgendaMenuTapped(object sender, TappedEventArgs e)
     {
-        await Navigation.PushAsync(new AgendaPage());
+        await Navigation.PushAsync(new AgendaPage(GestanteId));
     }
 
     private async void OnChatMenuTapped(object sender, TappedEventArgs e)

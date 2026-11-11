@@ -5,75 +5,183 @@
              BackgroundColor="#F2F9F8"
              NavigationPage.HasNavigationBar="False">
 
-    <Grid RowDefinitions="*, Auto">
-        <!-- Conteúdo Scroll -->
+    <Grid RowDefinitions="*,Auto">
+
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Spacing="15" Padding="0,0,0,20">
 
-                <!-- Cabeçalho & Bebê -->
-                <VerticalStackLayout BackgroundColor="#00897B" Padding="20,40,20,20" Spacing="15">
-                    <Label Text="Olá, Maria! 💛" FontSize="22" FontAttributes="Bold" TextColor="White"/>
+                <VerticalStackLayout BackgroundColor="#00897B"
+                                     Padding="20,40,20,20"
+                                     Spacing="15">
 
-                    <Border BackgroundColor="#2FA592" Stroke="Transparent" StrokeShape="RoundRectangle 12" Padding="15">
-                        <HorizontalStackLayout Spacing="15">
-                            <Label Text="62%" TextColor="White" FontAttributes="Bold" FontSize="18" VerticalOptions="Center"/>
-                            <VerticalStackLayout VerticalOptions="Center">
-                                <Label Text="24ª Semana 🌽" FontSize="16" FontAttributes="Bold" TextColor="White"/>
-                                <Label Text="Tamanho de uma espiga de milho" FontSize="12" TextColor="#D1F2EB"/>
-                            </VerticalStackLayout>
-                        </HorizontalStackLayout>
+                    <Label x:Name="lblNomeGestante"
+                           Text="Olá!"
+                           FontSize="22"
+                           FontAttributes="Bold"
+                           TextColor="White"/>
+
+                    <Border BackgroundColor="#2FA592"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="15">
+
+                        <VerticalStackLayout Spacing="8">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Sua gestação"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="White"/>
+
+                                <Label x:Name="lblPercentual"
+                                       Grid.Column="1"
+                                       Text="0%"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="White"/>
+                            </Grid>
+
+                            <Label x:Name="lblSemanaGestacao"
+                                   Text="Calculando semanas..."
+                                   FontSize="15"
+                                   FontAttributes="Bold"
+                                   TextColor="White"/>
+
+                            <Label Text="Acompanhamento calculado pela DUM"
+                                   FontSize="12"
+                                   TextColor="#D1F2EB"/>
+                        </VerticalStackLayout>
                     </Border>
                 </VerticalStackLayout>
 
-                <!-- Conteúdo Principal -->
                 <VerticalStackLayout Padding="15" Spacing="12">
 
-                    <!-- Próxima Consulta -->
-                    <Border BackgroundColor="White" Stroke="Transparent" StrokeShape="RoundRectangle 12" Padding="15">
+                    <Border BackgroundColor="White"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="15">
+
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnAgendaTapped"/>
                         </Border.GestureRecognizers>
+
                         <HorizontalStackLayout Spacing="15">
-                            <Label Text="📅" FontSize="24" VerticalOptions="Center"/>
+                            <Label Text="📅"
+                                   FontSize="24"
+                                   VerticalOptions="Center"/>
+
                             <VerticalStackLayout VerticalOptions="Center">
-                                <Label Text="PRÓXIMA CONSULTA" FontSize="10" FontAttributes="Bold" TextColor="#7F8C8D"/>
-                                <Label Text="20 de Outubro · 14h" FontSize="15" FontAttributes="Bold" TextColor="#2C3E50"/>
-                                <Label Text="Enf. Patrícia Mendes" FontSize="11" TextColor="#7F8C8D"/>
+                                <Label Text="MINHA AGENDA"
+                                       FontSize="10"
+                                       FontAttributes="Bold"
+                                       TextColor="#7F8C8D"/>
+
+                                <Label Text="Consultar consultas"
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       TextColor="#2C3E50"/>
+
+                                <Label Text="Acesse seus agendamentos"
+                                       FontSize="11"
+                                       TextColor="#7F8C8D"/>
                             </VerticalStackLayout>
                         </HorizontalStackLayout>
                     </Border>
 
-                    <!-- Resumo -->
-                    <Border BackgroundColor="White" Stroke="Transparent" StrokeShape="RoundRectangle 12" Padding="15">
-                        <VerticalStackLayout Spacing="8">
-                            <Label Text="Minha Gestação" FontSize="15" FontAttributes="Bold" TextColor="#2C3E50"/>
-                            <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
-                                <Label Text="24 Semanas" FontAttributes="Bold" TextColor="#1A9E85"/>
-                                <Label Text="112 Dias Restantes" FontAttributes="Bold" TextColor="#1A9E85"/>
+                    <Border BackgroundColor="White"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="15">
+
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="Minha Gestação"
+                                   FontSize="15"
+                                   FontAttributes="Bold"
+                                   TextColor="#2C3E50"/>
+
+                            <HorizontalStackLayout Spacing="20"
+                                                   HorizontalOptions="Center">
+
+                                <VerticalStackLayout Spacing="4">
+                                    <Label Text="Dias restantes"
+                                           FontSize="11"
+                                           TextColor="#7F8C8D"/>
+
+                                    <Label x:Name="lblDiasRestantes"
+                                           Text="Calculando..."
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           TextColor="#1A9E85"/>
+                                </VerticalStackLayout>
                             </HorizontalStackLayout>
+
+                            <BoxView HeightRequest="1" Color="#E8EFED"/>
+
+                            <Grid ColumnDefinitions="*,*">
+                                <VerticalStackLayout Spacing="4">
+                                    <Label Text="DUM"
+                                           FontSize="11"
+                                           TextColor="#7F8C8D"/>
+
+                                    <Label x:Name="lblDum"
+                                           Text="--/--/----"
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           TextColor="#2C3E50"/>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="1"
+                                                     Spacing="4">
+                                    <Label Text="DPP"
+                                           FontSize="11"
+                                           TextColor="#7F8C8D"/>
+
+                                    <Label x:Name="lblDpp"
+                                           Text="--/--/----"
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           TextColor="#2C3E50"/>
+                                </VerticalStackLayout>
+                            </Grid>
                         </VerticalStackLayout>
                     </Border>
 
-                    <!-- Emergência -->
-                    <Border BackgroundColor="White" Stroke="Transparent" StrokeShape="RoundRectangle 12" Padding="15">
-                        <Button Text="🚑 Acionar Emergência" BackgroundColor="#E74C3C" TextColor="White" FontAttributes="Bold" CornerRadius="10" HeightRequest="45"/>
+                    <Border BackgroundColor="White"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 12"
+                            Padding="15">
+
+                        <Button Text="🚑 Acionar Emergência"
+                                BackgroundColor="#E74C3C"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                CornerRadius="10"
+                                HeightRequest="45"/>
                     </Border>
 
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
 
-        <!-- Menu Inferior com os 5 Botões -->
-        <Grid Grid.Row="1" BackgroundColor="White" HeightRequest="60" ColumnDefinitions="*, *, *, *, *">
+        <Grid Grid.Row="1"
+              BackgroundColor="White"
+              HeightRequest="60"
+              ColumnDefinitions="*,*,*,*,*">
 
-            <!-- Botão Início -->
-            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                <Label Text="🏠" FontSize="16" HorizontalOptions="Center"/>
-                <Label Text="Início" FontSize="10" TextColor="#1A9E85" FontAttributes="Bold" HorizontalOptions="Center"/>
+            <VerticalStackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center">
+                <Label Text="🏠"
+                       FontSize="16"
+                       HorizontalOptions="Center"/>
+                <Label Text="Início"
+                       FontSize="10"
+                       TextColor="#1A9E85"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
             </VerticalStackLayout>
 
-            <!-- Botão Agenda -->
-            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">
+            <VerticalStackLayout Grid.Column="1"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center">
                 <VerticalStackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnAgendaTapped"/>
                 </VerticalStackLayout.GestureRecognizers>
@@ -81,8 +189,9 @@
                 <Label Text="Agenda" FontSize="10" TextColor="#7F8C8D" HorizontalOptions="Center"/>
             </VerticalStackLayout>
 
-            <!-- Botão Chat -->
-            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center">
+            <VerticalStackLayout Grid.Column="2"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center">
                 <VerticalStackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnChatTapped"/>
                 </VerticalStackLayout.GestureRecognizers>
@@ -90,8 +199,9 @@
                 <Label Text="Chat" FontSize="10" TextColor="#7F8C8D" HorizontalOptions="Center"/>
             </VerticalStackLayout>
 
-            <!-- Botão Guia -->
-            <VerticalStackLayout Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center">
+            <VerticalStackLayout Grid.Column="3"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center">
                 <VerticalStackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnGuiaTapped"/>
                 </VerticalStackLayout.GestureRecognizers>
@@ -99,8 +209,9 @@
                 <Label Text="Guia" FontSize="10" TextColor="#7F8C8D" HorizontalOptions="Center"/>
             </VerticalStackLayout>
 
-            <!-- Botão Perfil -->
-            <VerticalStackLayout Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center">
+            <VerticalStackLayout Grid.Column="4"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center">
                 <VerticalStackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnPerfilTapped"/>
                 </VerticalStackLayout.GestureRecognizers>
@@ -110,5 +221,4 @@
 
         </Grid>
     </Grid>
-
 </ContentPage>

@@ -5,21 +5,19 @@
              BackgroundColor="#F0F8F6"
              NavigationPage.HasNavigationBar="False">
 
-    <Grid RowDefinitions="*, Auto">
-        <!-- Conteúdo Rolável -->
+    <Grid RowDefinitions="*,Auto">
+
         <ScrollView Grid.Row="0">
             <VerticalStackLayout Spacing="15" Padding="20,40,20,20">
 
-                <!-- Título Mês/Ano -->
                 <VerticalStackLayout>
-                    <Label Text="2026" FontSize="12" TextColor="#7F8C8D"/>
-                    <Label Text="Outubro" FontSize="24" FontAttributes="Bold" TextColor="#2C3E50"/>
+                    <Label x:Name="lblAno" FontSize="12" TextColor="#7F8C8D"/>
+                    <Label x:Name="lblMes" FontSize="24" FontAttributes="Bold" TextColor="#2C3E50"/>
                 </VerticalStackLayout>
 
-                <!-- Calendário Completo de Outubro/2026 -->
                 <Border BackgroundColor="White" Stroke="Transparent" StrokeShape="RoundRectangle 12" Padding="15">
                     <VerticalStackLayout Spacing="12">
-                        <!-- Dias da Semana -->
+
                         <Grid ColumnDefinitions="*,*,*,*,*,*,*">
                             <Label Text="Dom" HorizontalTextAlignment="Center" FontSize="11" TextColor="#7F8C8D"/>
                             <Label Grid.Column="1" Text="Seg" HorizontalTextAlignment="Center" FontSize="11" TextColor="#7F8C8D"/>
@@ -30,108 +28,39 @@
                             <Label Grid.Column="6" Text="Sáb" HorizontalTextAlignment="Center" FontSize="11" TextColor="#7F8C8D"/>
                         </Grid>
 
-                        <!-- Grade Completa dos Dias (1 ao 31) -->
-                        <Grid ColumnDefinitions="*,*,*,*,*,*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" RowSpacing="10">
-                            <!-- Semana 1 (1 a 3) -->
-                            <Label Grid.Row="0" Grid.Column="4" Text="1" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="0" Grid.Column="5" Text="2" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="0" Grid.Column="6" Text="3" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
+                        <Grid x:Name="CalendarioGrid"
+                              ColumnDefinitions="*,*,*,*,*,*,*"
+                              RowSpacing="10"
+                              ColumnSpacing="0"/>
 
-                            <!-- Semana 2 (4 a 10) -->
-                            <Label Grid.Row="1" Grid.Column="0" Text="4" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="1" Grid.Column="1" Text="5" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="1" Grid.Column="2" Text="6" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="1" Grid.Column="3" Text="7" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-
-                            <!-- Dia 8: Marcado com Consulta (Circulado) -->
-                            <Border Grid.Row="1" Grid.Column="4" BackgroundColor="#1A9E85" Stroke="Transparent" StrokeShape="RoundRectangle 15" HeightRequest="28" WidthRequest="28" HorizontalOptions="Center">
-                                <Label Text="8" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="White" FontSize="11" FontAttributes="Bold"/>
-                            </Border>
-
-                            <Label Grid.Row="1" Grid.Column="5" Text="9" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="1" Grid.Column="6" Text="10" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-
-                            <!-- Semana 3 (11 a 17) -->
-                            <Label Grid.Row="2" Grid.Column="0" Text="11" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="2" Grid.Column="1" Text="12" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="2" Grid.Column="2" Text="13" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="2" Grid.Column="3" Text="14" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="2" Grid.Column="4" Text="15" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="2" Grid.Column="5" Text="16" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="2" Grid.Column="6" Text="17" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-
-                            <!-- Semana 4 (18 a 24) -->
-                            <Label Grid.Row="3" Grid.Column="0" Text="18" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="3" Grid.Column="1" Text="19" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="3" Grid.Column="2" Text="20" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="3" Grid.Column="3" Text="21" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-
-                            <!-- Dia 22: Marcado com Consulta (Circulado) -->
-                            <Border Grid.Row="3" Grid.Column="4" BackgroundColor="#1A9E85" Stroke="Transparent" StrokeShape="RoundRectangle 15" HeightRequest="28" WidthRequest="28" HorizontalOptions="Center">
-                                <Label Text="22" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="White" FontSize="11" FontAttributes="Bold"/>
-                            </Border>
-
-                            <Label Grid.Row="3" Grid.Column="5" Text="23" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="3" Grid.Column="6" Text="24" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-
-                            <!-- Semana 5 (25 a 31) -->
-                            <Label Grid.Row="4" Grid.Column="0" Text="25" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="4" Grid.Column="1" Text="26" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="4" Grid.Column="2" Text="27" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="4" Grid.Column="3" Text="28" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-
-                            <!-- Dia 29: Marcado com Consulta (Circulado) -->
-                            <Border Grid.Row="4" Grid.Column="4" BackgroundColor="#1A9E85" Stroke="Transparent" StrokeShape="RoundRectangle 15" HeightRequest="28" WidthRequest="28" HorizontalOptions="Center">
-                                <Label Text="29" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="White" FontSize="11" FontAttributes="Bold"/>
-                            </Border>
-
-                            <Label Grid.Row="4" Grid.Column="5" Text="30" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                            <Label Grid.Row="4" Grid.Column="6" Text="31" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="#1A9E85" FontSize="12"/>
-                        </Grid>
                     </VerticalStackLayout>
                 </Border>
 
-                <!-- Próximas Consultas -->
-                <Label Text="PRÓXIMAS CONSULTAS" FontSize="11" FontAttributes="Bold" TextColor="#7F8C8D" Margin="0,5,0,0"/>
+                <Label Text="PRÓXIMAS CONSULTAS"
+                       FontSize="11"
+                       FontAttributes="Bold"
+                       TextColor="#7F8C8D"
+                       Margin="0,5,0,0"/>
 
-                <Border BackgroundColor="White" Stroke="Transparent" StrokeShape="RoundRectangle 12" Padding="15">
-                    <HorizontalStackLayout Spacing="12">
-                        <Border StrokeShape="RoundRectangle 10" HeightRequest="45" WidthRequest="45" BackgroundColor="#E6F4F1" Stroke="Transparent">
-                            <VerticalStackLayout VerticalOptions="Center">
-                                <Label Text="8" FontSize="14" FontAttributes="Bold" TextColor="#1A9E85" HorizontalOptions="Center"/>
-                                <Label Text="OUT" FontSize="9" TextColor="#1A9E85" HorizontalOptions="Center"/>
-                            </VerticalStackLayout>
-                        </Border>
-                        <VerticalStackLayout VerticalOptions="Center" WidthRequest="200">
-                            <Label Text="Consulta Pré-Natal" FontSize="14" FontAttributes="Bold" TextColor="#2C3E50"/>
-                            <Label Text="14:00 · Enf. Patrícia Mendes" FontSize="11" TextColor="#7F8C8D"/>
-                        </VerticalStackLayout>
-                    </HorizontalStackLayout>
-                </Border>
+                <VerticalStackLayout x:Name="ConsultasContainer" Spacing="12"/>
 
-                <Border BackgroundColor="White" Stroke="Transparent" StrokeShape="RoundRectangle 12" Padding="15">
-                    <HorizontalStackLayout Spacing="12">
-                        <Border StrokeShape="RoundRectangle 10" HeightRequest="45" WidthRequest="45" BackgroundColor="#F3EBFF" Stroke="Transparent">
-                            <VerticalStackLayout VerticalOptions="Center">
-                                <Label Text="5" FontSize="14" FontAttributes="Bold" TextColor="#8E52F5" HorizontalOptions="Center"/>
-                                <Label Text="NOV" FontSize="9" TextColor="#8E52F5" HorizontalOptions="Center"/>
-                            </VerticalStackLayout>
-                        </Border>
-                        <VerticalStackLayout VerticalOptions="Center" WidthRequest="200">
-                            <Label Text="Grupo de Gestantes" FontSize="14" FontAttributes="Bold" TextColor="#2C3E50"/>
-                            <Label Text="16:30 · Equipe de Saúde" FontSize="11" TextColor="#7F8C8D"/>
-                        </VerticalStackLayout>
-                    </HorizontalStackLayout>
-                </Border>
+                <Label x:Name="lblSemConsultas"
+                       Text="Você ainda não possui consultas agendadas."
+                       FontSize="13"
+                       TextColor="#7F8C8D"
+                       HorizontalTextAlignment="Center"
+                       Margin="0,10"
+                       IsVisible="False"/>
 
             </VerticalStackLayout>
         </ScrollView>
 
-        <!-- Menu Inferior -->
-        <Grid Grid.Row="1" BackgroundColor="White" HeightRequest="60" ColumnDefinitions="*, *, *, *, *">
+        <Grid Grid.Row="1"
+              BackgroundColor="White"
+              HeightRequest="60"
+              ColumnDefinitions="*,*,*,*,*">
 
-            <!-- Início -->
-            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="Transparent">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                 <VerticalStackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnInicioTapped"/>
                 </VerticalStackLayout.GestureRecognizers>
@@ -139,26 +68,22 @@
                 <Label Text="Início" FontSize="10" TextColor="#7F8C8D" HorizontalOptions="Center" InputTransparent="True"/>
             </VerticalStackLayout>
 
-            <!-- Agenda (Tela Atual) -->
             <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">
                 <Label Text="📅" FontSize="16" HorizontalOptions="Center"/>
                 <Label Text="Agenda" FontSize="10" TextColor="#1A9E85" FontAttributes="Bold" HorizontalOptions="Center"/>
             </VerticalStackLayout>
 
-            <!-- Chat -->
             <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center">
                 <Label Text="💬" FontSize="16" HorizontalOptions="Center"/>
                 <Label Text="Chat" FontSize="10" TextColor="#7F8C8D" HorizontalOptions="Center"/>
             </VerticalStackLayout>
 
-            <!-- Guia -->
             <VerticalStackLayout Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center">
                 <Label Text="📖" FontSize="16" HorizontalOptions="Center"/>
                 <Label Text="Guia" FontSize="10" TextColor="#7F8C8D" HorizontalOptions="Center"/>
             </VerticalStackLayout>
 
-            <!-- Perfil -->
-            <VerticalStackLayout Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="Transparent">
+            <VerticalStackLayout Grid.Column="4" VerticalOptions="Center" HorizontalOptions="Center">
                 <VerticalStackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnPerfilTapped"/>
                 </VerticalStackLayout.GestureRecognizers>
