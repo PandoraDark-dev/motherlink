@@ -21,28 +21,30 @@ public partial class LoginProfissionalPage : ContentPage
         lblOlho.Opacity = txtSenhaProfissional.IsPassword ? 1.0 : 0.5;
     }
 
+
     private async void OnEntrarProfissionalClicked(object sender, EventArgs e)
     {
-        if (string.IsNullOrWhiteSpace(txtIdentificacao.Text) ||
-            string.IsNullOrWhiteSpace(txtSenhaProfissional.Text))
+        var identificacao = txtIdentificacao.Text?.Trim();
+        var senha = txtSenhaProfissional.Text;
+
+        if (string.IsNullOrWhiteSpace(identificacao) ||
+            string.IsNullOrWhiteSpace(senha))
         {
             await DisplayAlert("Erro", "Preencha todos os campos.", "OK");
             return;
         }
 
-        var cpf = new string(txtIdentificacao.Text.Where(char.IsDigit).ToArray());
-
         try
         {
             var api = new ApiService();
-            var resultado = await api.Login(cpf, string.Empty, txtSenhaProfissional.Text);
+
+            var resultado = identificacao.Contains('@')
+                ? await api.LoginProfissional(string.Empty, identificacao, senha)
+                : await api.LoginProfissional(identificacao, string.Empty, senha);
 
             if (resultado == null || !resultado.Sucesso)
             {
-                await DisplayAlert(
-                    "Erro",
-                    resultado?.Mensagem ?? "A API não retornou dados.",
-                    "OK");
+                await DisplayAlert("Erro", resultado?.Mensagem ?? "A API não retornou dados.", "OK");
                 return;
             }
 
@@ -57,10 +59,7 @@ public partial class LoginProfissionalPage : ContentPage
         }
         catch (TaskCanceledException)
         {
-            await DisplayAlert(
-                "Erro de conexão",
-                "A API demorou demais para responder. Verifique se está rodando na porta 5240.",
-                "OK");
+            await DisplayAlert("Erro de conexão", "A API demorou demais para responder. Verifique se está rodando na porta 5240.", "OK");
         }
         catch (HttpRequestException ex)
         {
@@ -71,4 +70,5 @@ public partial class LoginProfissionalPage : ContentPage
             await DisplayAlert("Erro", ex.Message, "OK");
         }
     }
+
 }

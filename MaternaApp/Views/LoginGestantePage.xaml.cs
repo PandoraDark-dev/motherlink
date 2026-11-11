@@ -110,10 +110,10 @@ public partial class LoginGestantePage : ContentPage
         {
             var api = new ApiService();
 
-            var resultado = await api.Login(
-                _usandoCpf ? documento : string.Empty,
-                _usandoCpf ? string.Empty : documento,
-                senha);
+            var resultado = await api.LoginGestante(
+     _usandoCpf ? documento : string.Empty,
+     _usandoCpf ? string.Empty : documento,
+     senha);
 
             if (resultado == null || !resultado.Sucesso)
             {

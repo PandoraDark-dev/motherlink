@@ -1,5 +1,6 @@
 ﻿
 using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace MaternaApp.Services;
 
@@ -16,36 +17,55 @@ public class ApiService
         };
     }
 
-    public async Task<LoginResponse?> Login(string cpf, string cartaoSUS, string senha)
+    public async Task<LoginResponse?> LoginGestante(string cpf, string cartaoSUS, string senha)
     {
-        var dados = new LoginRequest
+        return await Login(new LoginRequest
         {
             CPF = cpf,
             CartaoSUS = cartaoSUS,
             Senha = senha
-        };
+        });
+    }
 
+    public async Task<LoginResponse?> LoginProfissional(string coren, string email, string senha)
+    {
+        return await Login(new LoginRequest
+        {
+            COREN = coren,
+            EMAIL = email,
+            Senha = senha
+        });
+    }
+
+    private async Task<LoginResponse?> Login(LoginRequest dados)
+    {
         var resposta = await _httpClient.PostAsJsonAsync("api/Auth/login", dados);
+        var conteudo = await resposta.Content.ReadAsStringAsync();
 
         if (!resposta.IsSuccessStatusCode)
         {
             return new LoginResponse
             {
                 Sucesso = false,
-                Mensagem = resposta.StatusCode == System.Net.HttpStatusCode.Unauthorized
-                    ? "CPF, Cartão SUS ou senha inválidos."
-                    : $"Erro na API: {(int)resposta.StatusCode} - {resposta.ReasonPhrase}"
+                Mensagem = $"Erro {(int)resposta.StatusCode}: {conteudo}"
             };
         }
 
-        return await resposta.Content.ReadFromJsonAsync<LoginResponse>();
+        return JsonSerializer.Deserialize<LoginResponse>(
+            conteudo,
+            new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
     }
 }
 
 public class LoginRequest
 {
-    public string CPF { get; set; } = string.Empty;
     public string CartaoSUS { get; set; } = string.Empty;
+    public string CPF { get; set; } = string.Empty;
+    public string COREN { get; set; } = string.Empty;
+    public string EMAIL { get; set; } = string.Empty;
     public string Senha { get; set; } = string.Empty;
 }
 
