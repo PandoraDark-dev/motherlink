@@ -63,10 +63,7 @@ public class ApiService
         var resposta = await _httpClient.PostAsJsonAsync("api/Gestantes", dados);
 
         if (!resposta.IsSuccessStatusCode)
-        {
-            var erro = await resposta.Content.ReadAsStringAsync();
-            throw new HttpRequestException(erro);
-        }
+            throw new HttpRequestException(await resposta.Content.ReadAsStringAsync());
 
         return await resposta.Content.ReadFromJsonAsync<GestanteResponse>(_jsonOptions);
     }
@@ -76,13 +73,9 @@ public class ApiService
         var resposta = await _httpClient.GetAsync("api/Gestantes");
 
         if (!resposta.IsSuccessStatusCode)
-        {
-            var erro = await resposta.Content.ReadAsStringAsync();
-            throw new HttpRequestException(erro);
-        }
+            throw new HttpRequestException(await resposta.Content.ReadAsStringAsync());
 
-        return await resposta.Content.ReadFromJsonAsync<List<GestanteResponse>>(_jsonOptions)
-            ?? new List<GestanteResponse>();
+        return await resposta.Content.ReadFromJsonAsync<List<GestanteResponse>>(_jsonOptions) ?? new();
     }
 
     public async Task<GestanteResponse?> BuscarGestantePorId(int id)
@@ -102,13 +95,19 @@ public class ApiService
         var resposta = await _httpClient.GetAsync($"api/Consultas/gestante/{gestanteId}");
 
         if (!resposta.IsSuccessStatusCode)
-        {
-            var erro = await resposta.Content.ReadAsStringAsync();
-            throw new HttpRequestException(erro);
-        }
+            throw new HttpRequestException(await resposta.Content.ReadAsStringAsync());
 
-        return await resposta.Content.ReadFromJsonAsync<List<ConsultaResponse>>(_jsonOptions)
-            ?? new List<ConsultaResponse>();
+        return await resposta.Content.ReadFromJsonAsync<List<ConsultaResponse>>(_jsonOptions) ?? new();
+    }
+
+    public async Task<List<BuscaAtivaResponse>> ListarBuscaAtiva()
+    {
+        var resposta = await _httpClient.GetAsync("api/Consultas/busca-ativa");
+
+        if (!resposta.IsSuccessStatusCode)
+            throw new HttpRequestException(await resposta.Content.ReadAsStringAsync());
+
+        return await resposta.Content.ReadFromJsonAsync<List<BuscaAtivaResponse>>(_jsonOptions) ?? new();
     }
 
     public async Task<ConsultaResponse?> CadastrarConsulta(ConsultaRequest dados)
@@ -116,12 +115,29 @@ public class ApiService
         var resposta = await _httpClient.PostAsJsonAsync("api/Consultas", dados);
 
         if (!resposta.IsSuccessStatusCode)
-        {
-            var erro = await resposta.Content.ReadAsStringAsync();
-            throw new HttpRequestException(erro);
-        }
+            throw new HttpRequestException(await resposta.Content.ReadAsStringAsync());
 
         return await resposta.Content.ReadFromJsonAsync<ConsultaResponse>(_jsonOptions);
+    }
+
+    public async Task<List<ProfissionalResponse>> ListarProfissionais()
+    {
+        var resposta = await _httpClient.GetAsync("api/Profissionais");
+
+        if (!resposta.IsSuccessStatusCode)
+            throw new HttpRequestException(await resposta.Content.ReadAsStringAsync());
+
+        return await resposta.Content.ReadFromJsonAsync<List<ProfissionalResponse>>(_jsonOptions) ?? new();
+    }
+
+    public async Task<ProfissionalResponse?> CadastrarProfissional(ProfissionalRequest dados)
+    {
+        var resposta = await _httpClient.PostAsJsonAsync("api/Profissionais", dados);
+
+        if (!resposta.IsSuccessStatusCode)
+            throw new HttpRequestException(await resposta.Content.ReadAsStringAsync());
+
+        return await resposta.Content.ReadFromJsonAsync<ProfissionalResponse>(_jsonOptions);
     }
 }
 
@@ -138,6 +154,7 @@ public class LoginResponse
 {
     public bool Sucesso { get; set; }
     public string TipoUsuario { get; set; } = string.Empty;
+    public string Funcao { get; set; } = string.Empty;
     public int Id { get; set; }
     public string Nome { get; set; } = string.Empty;
     public string Mensagem { get; set; } = string.Empty;
@@ -173,6 +190,17 @@ public class ConsultaResponse
     public string Observacoes { get; set; } = string.Empty;
 }
 
+public class BuscaAtivaResponse
+{
+    public int GestanteId { get; set; }
+    public string Nome { get; set; } = string.Empty;
+    public string CPF { get; set; } = string.Empty;
+    public string CartaoSUS { get; set; } = string.Empty;
+    public DateTime? UltimaConsulta { get; set; }
+    public int? DiasSemConsulta { get; set; }
+    public string Situacao { get; set; } = string.Empty;
+}
+
 public class ConsultaRequest
 {
     public int GestanteId { get; set; }
@@ -180,4 +208,25 @@ public class ConsultaRequest
     public DateTime Data { get; set; }
     public string Tipo { get; set; } = string.Empty;
     public string Observacoes { get; set; } = string.Empty;
+}
+
+public class ProfissionalRequest
+{
+    public string Nome { get; set; } = string.Empty;
+    public string CPF { get; set; } = string.Empty;
+    public string Registro { get; set; } = string.Empty;
+    public string Especialidade { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string Senha { get; set; } = string.Empty;
+}
+
+public class ProfissionalResponse
+{
+    public int Id { get; set; }
+    public string Nome { get; set; } = string.Empty;
+    public string CPF { get; set; } = string.Empty;
+    public string Registro { get; set; } = string.Empty;
+    public string Especialidade { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string Funcao { get; set; } = string.Empty;
 }

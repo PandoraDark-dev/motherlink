@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MaternaApp.Views.EsusPage"
+             BackgroundColor="#F2F9F8"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <Grid BackgroundColor="#17685F" Padding="22"
+              ColumnDefinitions="*,Auto">
+            <VerticalStackLayout Spacing="4">
+                <Label Text="MotherLink"
+                       FontSize="23"
+                       FontAttributes="Bold"
+                       TextColor="White"/>
+                <Label Text="Prontuário pré-natal"
+                       FontSize="13"
+                       TextColor="#D2EAE5"/>
+            </VerticalStackLayout>
+
+            <Button Grid.Column="1"
+                    Text="Voltar"
+                    TextColor="White"
+                    BackgroundColor="#287D72"
+                    CornerRadius="10"
+                    Clicked="OnVoltarClicked"/>
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="25" Spacing="20">
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="e-SUS | Histórico pré-natal"
+                           FontSize="25"
+                           FontAttributes="Bold"
+                           TextColor="#244A45"/>
+                    <Label Text="Dados e consultas registrados no MotherLink"
+                           FontSize="13"
+                           TextColor="#81938F"/>
+                </VerticalStackLayout>
+
+                <Frame Padding="18"
+                       CornerRadius="14"
+                       HasShadow="False"
+                       BackgroundColor="White">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Selecione a gestante"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#244A45"/>
+
+                        <Picker x:Name="pkGestante"
+                                Title="Escolha uma gestante"
+                                ItemDisplayBinding="{Binding Nome}"
+                                TextColor="#244A45"
+                                BackgroundColor="#F2F9F8"
+                                SelectedIndexChanged="OnGestanteSelecionada"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame Padding="18"
+                       CornerRadius="14"
+                       HasShadow="False"
+                       BackgroundColor="White">
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="Identificação da gestante"
+                               FontSize="17"
+                               FontAttributes="Bold"
+                               TextColor="#244A45"/>
+
+                        <Label x:Name="lblNome"
+                               Text="Selecione uma gestante"
+                               FontSize="21"
+                               FontAttributes="Bold"
+                               TextColor="#319C8C"/>
+
+                        <BoxView HeightRequest="1" Color="#E8EFED"/>
+
+                        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto"
+                              ColumnSpacing="15" RowSpacing="15">
+
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="CPF" FontSize="12" TextColor="#81938F"/>
+                                <Label x:Name="lblCpf" Text="-"
+                                       FontSize="14" TextColor="#244A45"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="Cartão SUS" FontSize="12" TextColor="#81938F"/>
+                                <Label x:Name="lblSus" Text="-"
+                                       FontSize="14" TextColor="#244A45"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Row="1" Spacing="4">
+                                <Label Text="DUM" FontSize="12" TextColor="#81938F"/>
+                                <Label x:Name="lblDum" Text="-"
+                                       FontSize="14" TextColor="#244A45"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="4">
+                                <Label Text="DPP" FontSize="12" TextColor="#81938F"/>
+                                <Label x:Name="lblDpp" Text="-"
+                                       FontSize="14" TextColor="#244A45"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame Padding="18"
+                       CornerRadius="14"
+                       HasShadow="False"
+                       BackgroundColor="White">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Histórico de consultas"
+                               FontSize="17"
+                               FontAttributes="Bold"
+                               TextColor="#244A45"/>
+
+                        <CollectionView x:Name="ListaConsultas"
+                                        HeightRequest="300">
+                            <CollectionView.EmptyView>
+                                <Label Text="Nenhuma consulta registrada para esta gestante."
+                                       TextColor="#81938F"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </CollectionView.EmptyView>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame Padding="14"
+                                           Margin="0,4"
+                                           CornerRadius="10"
+                                           HasShadow="False"
+                                           BackgroundColor="#F2F9F8"
+                                           BorderColor="#E1EEEA">
+                                        <VerticalStackLayout Spacing="6">
+                                            <Grid ColumnDefinitions="*,Auto">
+                                                <Label Text="{Binding Tipo}"
+                                                       FontSize="14"
+                                                       FontAttributes="Bold"
+                                                       TextColor="#244A45"/>
+                                                <Label Grid.Column="1"
+                                                       Text="{Binding Data, StringFormat='{0:dd/MM/yyyy HH:mm}'}"
+                                                       FontSize="12"
+                                                       TextColor="#319C8C"/>
+                                            </Grid>
+                                            <Label Text="{Binding Observacoes}"
+                                                   FontSize="12"
+                                                   TextColor="#526B66"/>
+                                        </VerticalStackLayout>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

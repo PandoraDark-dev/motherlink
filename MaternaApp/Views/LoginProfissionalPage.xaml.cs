@@ -53,8 +53,13 @@ public partial class LoginProfissionalPage : ContentPage
                 return;
             }
 
-            Application.Current!.MainPage =
-                new NavigationPage(new PainelProfissionalPage(resultado.Id));
+            Page pagina = resultado.Funcao.Equals(
+                "EnfermeiraChefe",
+                StringComparison.OrdinalIgnoreCase)
+                ? new PainelEnfermeiraChefePage(resultado.Id)
+                : new PainelProfissionalPage(resultado.Id);
+
+            Application.Current!.MainPage = new NavigationPage(pagina);
         }
         catch (Exception ex)
         {

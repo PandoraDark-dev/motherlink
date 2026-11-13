@@ -213,6 +213,30 @@ public partial class PainelProfissionalPage : ContentPage
         }
     }
 
+    private async void OnAbrirBuscaAtivaTapped(object sender, TappedEventArgs e)
+    {
+        try
+        {
+            var gestantes = await _api.ListarBuscaAtiva();
+            ListaBuscaAtiva.ItemsSource = gestantes;
+            ModalBuscaAtivaGrid.IsVisible = true;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erro", $"Não foi possível carregar a Busca ativa.\n{ex.Message}", "OK");
+        }
+    }
+
+    private void OnFecharBuscaAtivaClicked(object sender, EventArgs e)
+    {
+        ModalBuscaAtivaGrid.IsVisible = false;
+    }
+
+    private async void OnAbrirEsusTapped(object sender, TappedEventArgs e)
+    {
+        await Navigation.PushAsync(new EsusPage());
+    }
+
     private async void OnSairClicked(object sender, EventArgs e)
     {
         bool confirmar = await DisplayAlert(

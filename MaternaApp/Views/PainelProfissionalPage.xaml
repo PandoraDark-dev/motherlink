@@ -22,9 +22,16 @@
                         <Label Text="▦  Dashboard" TextColor="White" FontSize="15"/>
                         <Label Text="♡  Gestantes" TextColor="White" FontSize="15"/>
                         <Label Text="✉  Mensagens" TextColor="White" FontSize="15"/>
-                        <Label Text="▣  Agenda" TextColor="White" FontSize="15"/>
-                        <Label Text="⌕  Busca ativa" TextColor="White" FontSize="15"/>
-                        <Label Text="▤  e-SUS" TextColor="White" FontSize="15"/>
+                        <Label Text="⌕  Busca ativa" TextColor="White" FontSize="15">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnAbrirBuscaAtivaTapped"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label Text="▤  e-SUS" TextColor="White" FontSize="15">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnAbrirEsusTapped"/>
+                            </Label.GestureRecognizers>
+                        </Label>
                     </VerticalStackLayout>
 
                     <Button Text="Sair"
@@ -335,6 +342,90 @@
                     </VerticalStackLayout>
                 </Frame>
             </ScrollView>
+        </Grid>
+
+        <Grid x:Name="ModalBuscaAtivaGrid"
+              IsVisible="False"
+              BackgroundColor="#80000000"
+              Padding="20">
+
+            <Frame Padding="22"
+                   CornerRadius="16"
+                   HasShadow="True"
+                   BackgroundColor="White"
+                   MaximumWidthRequest="650"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center">
+
+                <Grid RowDefinitions="Auto,Auto,*" RowSpacing="15">
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Busca ativa"
+                                   FontSize="21"
+                                   FontAttributes="Bold"
+                                   TextColor="#244A45"/>
+                            <Label Text="Gestantes que precisam de acompanhamento"
+                                   FontSize="12"
+                                   TextColor="#81938F"/>
+                        </VerticalStackLayout>
+
+                        <Button Grid.Column="1"
+                                Text="✕"
+                                BackgroundColor="Transparent"
+                                TextColor="#81938F"
+                                Clicked="OnFecharBuscaAtivaClicked"/>
+                    </Grid>
+
+                    <BoxView Grid.Row="1"
+                             HeightRequest="1"
+                             Color="#E8EFED"/>
+
+                    <CollectionView Grid.Row="2"
+                                    x:Name="ListaBuscaAtiva">
+                        <CollectionView.EmptyView>
+                            <Label Text="Nenhuma gestante precisa de busca ativa."
+                                   TextColor="#81938F"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </CollectionView.EmptyView>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame Padding="14"
+                                       Margin="0,4"
+                                       CornerRadius="10"
+                                       HasShadow="False"
+                                       BackgroundColor="#F2F9F8"
+                                       BorderColor="#E1EEEA">
+                                    <VerticalStackLayout Spacing="6">
+                                        <Label Text="{Binding Nome}"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#244A45"/>
+                                        <Label Text="{Binding CPF, StringFormat='CPF: {0}'}"
+                                               FontSize="12"
+                                               TextColor="#526B66"/>
+                                        <Label Text="{Binding CartaoSUS, StringFormat='Cartão SUS: {0}'}"
+                                               FontSize="12"
+                                               TextColor="#526B66"/>
+                                        <Label Text="{Binding UltimaConsulta, StringFormat='Última consulta: {0:dd/MM/yyyy}'}"
+                                               FontSize="12"
+                                               TextColor="#526B66"/>
+                                        <Label Text="{Binding DiasSemConsulta, StringFormat='Dias sem consulta: {0}'}"
+                                               FontSize="12"
+                                               TextColor="#526B66"/>
+                                        <Label Text="{Binding Situacao}"
+                                               FontSize="13"
+                                               FontAttributes="Bold"
+                                               TextColor="#C07835"/>
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Frame>
         </Grid>
     </Grid>
 </ContentPage>
