@@ -8,89 +8,195 @@
     Shell.NavBarIsVisible="False">
 
     <Grid RowDefinitions="Auto,*,Auto">
-        <VerticalStackLayout Grid.Row="0" BackgroundColor="#00897B" Padding="20,18,20,12" Spacing="12">
-            <Label Text="Guia Pré-Natal" FontSize="25" FontAttributes="Bold" TextColor="White" />
+
+        <VerticalStackLayout Grid.Row="0"
+                             BackgroundColor="#00897B"
+                             Padding="20,18,20,12"
+                             Spacing="12">
+
+            <Label Text="Guia Pré-Natal"
+                   FontSize="25"
+                   FontAttributes="Bold"
+                   TextColor="White"/>
 
             <ScrollView Orientation="Horizontal">
                 <HorizontalStackLayout Spacing="8">
-                    <Button Text="Diário" Clicked="OnDiarioClicked" BackgroundColor="Transparent" TextColor="White" />
-                    <Button Text="Semanário" Clicked="OnSemanarioClicked" BackgroundColor="Transparent" TextColor="White" />
-                    <Button Text="Suplementos" BackgroundColor="#F0F8F6" TextColor="#278F80" CornerRadius="12" />
-                    <Button Text="Plano de Parto" Clicked="OnPlanoPartoClicked" BackgroundColor="Transparent" TextColor="White" />
+                    <Button Text="Diário"
+                            Clicked="OnDiarioClicked"
+                            BackgroundColor="Transparent"
+                            TextColor="White"/>
+
+                    <Button Text="Semanário"
+                            Clicked="OnSemanarioClicked"
+                            BackgroundColor="Transparent"
+                            TextColor="White"/>
+
+                    <Button Text="Suplementos"
+                            BackgroundColor="#F0F8F6"
+                            TextColor="#278F80"
+                            CornerRadius="12"/>
+
+                    <Button Text="Plano de Parto"
+                            Clicked="OnPlanoPartoClicked"
+                            BackgroundColor="Transparent"
+                            TextColor="White"/>
                 </HorizontalStackLayout>
             </ScrollView>
         </VerticalStackLayout>
 
         <ScrollView Grid.Row="1">
             <VerticalStackLayout Padding="16" Spacing="14">
-                <Border BackgroundColor="White" Stroke="#E5EFEC" Padding="18" StrokeShape="RoundRectangle 20">
+
+                <Border BackgroundColor="White"
+                        Stroke="#E5EFEC"
+                        Padding="18"
+                        StrokeShape="RoundRectangle 20">
+
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="Meus Suplementos" FontSize="19" FontAttributes="Bold" TextColor="#263746" />
-                        <Label Text="Marque cada dose após tomar o suplemento." FontSize="13" TextColor="#9AA7B3" />
+                        <Label Text="Meus Suplementos"
+                               FontSize="19"
+                               FontAttributes="Bold"
+                               TextColor="#263746"/>
+
+                        <Label Text="Marque cada dose após tomar o suplemento."
+                               FontSize="13"
+                               TextColor="#9AA7B3"/>
                     </VerticalStackLayout>
                 </Border>
 
-                <VerticalStackLayout x:Name="SuplementosStack" Spacing="12">
-                    <Label Text="Carregando suplementos..." TextColor="#81938F" HorizontalTextAlignment="Center" />
+                <VerticalStackLayout x:Name="SuplementosStack"
+                                     Spacing="12">
+                    <Label Text="Carregando suplementos..."
+                           TextColor="#81938F"
+                           HorizontalTextAlignment="Center"/>
                 </VerticalStackLayout>
 
-                <Border BackgroundColor="White" Stroke="#E5EFEC" Padding="18" StrokeShape="RoundRectangle 20">
+                <Border BackgroundColor="White"
+                        Stroke="#E5EFEC"
+                        Padding="18"
+                        StrokeShape="RoundRectangle 20">
+
                     <VerticalStackLayout Spacing="12">
-                        <Label Text="HISTÓRICO DE DOSES" FontSize="14" FontAttributes="Bold" TextColor="#77858F" />
-                        <Label Text="Selecione uma data para consultar os registros." FontSize="13" TextColor="#9AA7B3" />
-                        <DatePicker x:Name="DataHistoricoPicker"
-                                    Format="dd/MM/yyyy"
-                                    MaximumDate="{Binding Source={x:Reference DataHistoricoPicker}, Path=Date}"
-                                    DateSelected="OnDataHistoricoChanged"
-                                    TextColor="#263746" />
-                        <VerticalStackLayout x:Name="HistoricoDosesStack" Spacing="10">
-                            <Label Text="Carregando histórico..." TextColor="#81938F" />
-                        </VerticalStackLayout>
+                        <Label Text="HISTÓRICO DA SEMANA"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#77858F"/>
+
+                        <ScrollView Orientation="Horizontal">
+                            <VerticalStackLayout x:Name="HistoricoSemanalStack"
+                                                 Spacing="10"/>
+                        </ScrollView>
+
+                        <HorizontalStackLayout Spacing="12">
+                            <Label Text="✓ Tomado"
+                                   FontSize="11"
+                                   TextColor="#20A765"/>
+
+                            <Label Text="✕ Não tomado"
+                                   FontSize="11"
+                                   TextColor="#D9534F"/>
+
+                            <Label Text="– Futuro"
+                                   FontSize="11"
+                                   TextColor="#9AA7B3"/>
+                        </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </Border>
+
+                <Border BackgroundColor="White"
+                        Stroke="#E5EFEC"
+                        Padding="18"
+                        StrokeShape="RoundRectangle 20">
+
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="HISTÓRICO POR DATA"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#77858F"/>
+
+                        <Label Text="Selecione uma data para consultar os registros."
+                               FontSize="13"
+                               TextColor="#9AA7B3"/>
+
+                        <DatePicker x:Name="DataHistoricoPicker"
+                                    Format="dd/MM/yyyy"
+                                    TextColor="#263746"
+                                    DateSelected="OnDataHistoricoChanged"/>
+
+                        <VerticalStackLayout x:Name="HistoricoDosesStack"
+                                             Spacing="10"/>
+                    </VerticalStackLayout>
+                </Border>
+
             </VerticalStackLayout>
         </ScrollView>
 
-        <Grid Grid.Row="2" BackgroundColor="White" Padding="8" ColumnDefinitions="*,*,*,*,*">
-            <VerticalStackLayout Grid.Column="0" Spacing="3" HorizontalOptions="Fill">
+        <Grid Grid.Row="2"
+              BackgroundColor="White"
+              Padding="8"
+              ColumnDefinitions="*,*,*,*,*">
+
+            <VerticalStackLayout Grid.Column="0" Spacing="3">
                 <VerticalStackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnInicioTapped" />
+                    <TapGestureRecognizer Tapped="OnInicioTapped"/>
                 </VerticalStackLayout.GestureRecognizers>
-                <Label Text="⌂" FontSize="24" HorizontalTextAlignment="Center" TextColor="#9AA7B3" />
-                <Label Text="Início" FontSize="11" HorizontalTextAlignment="Center" TextColor="#9AA7B3" />
+                <Label Text="⌂" FontSize="24"
+                       HorizontalTextAlignment="Center"
+                       TextColor="#9AA7B3"/>
+                <Label Text="Início" FontSize="11"
+                       HorizontalTextAlignment="Center"
+                       TextColor="#9AA7B3"/>
             </VerticalStackLayout>
 
-            <VerticalStackLayout Grid.Column="1" Spacing="3" HorizontalOptions="Fill">
+            <VerticalStackLayout Grid.Column="1" Spacing="3">
                 <VerticalStackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnAgendaMenuTapped" />
+                    <TapGestureRecognizer Tapped="OnAgendaMenuTapped"/>
                 </VerticalStackLayout.GestureRecognizers>
-                <Label Text="▢" FontSize="24" HorizontalTextAlignment="Center" TextColor="#9AA7B3" />
-                <Label Text="Agenda" FontSize="11" HorizontalTextAlignment="Center" TextColor="#9AA7B3" />
+                <Label Text="▢" FontSize="24"
+                       HorizontalTextAlignment="Center"
+                       TextColor="#9AA7B3"/>
+                <Label Text="Agenda" FontSize="11"
+                       HorizontalTextAlignment="Center"
+                       TextColor="#9AA7B3"/>
             </VerticalStackLayout>
 
-            <VerticalStackLayout Grid.Column="2" Spacing="3" HorizontalOptions="Fill">
+            <VerticalStackLayout Grid.Column="2" Spacing="3">
                 <VerticalStackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnChatMenuTapped" />
+                    <TapGestureRecognizer Tapped="OnChatMenuTapped"/>
                 </VerticalStackLayout.GestureRecognizers>
-                <Label Text="◉" FontSize="24" HorizontalTextAlignment="Center" TextColor="#9AA7B3" />
-                <Label Text="Chat" FontSize="11" HorizontalTextAlignment="Center" TextColor="#9AA7B3" />
+                <Label Text="◉" FontSize="24"
+                       HorizontalTextAlignment="Center"
+                       TextColor="#9AA7B3"/>
+                <Label Text="Chat" FontSize="11"
+                       HorizontalTextAlignment="Center"
+                       TextColor="#9AA7B3"/>
             </VerticalStackLayout>
 
-            <VerticalStackLayout Grid.Column="3" Spacing="3" HorizontalOptions="Fill">
+            <VerticalStackLayout Grid.Column="3" Spacing="3">
                 <VerticalStackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnGuiaMenuTapped" />
+                    <TapGestureRecognizer Tapped="OnGuiaMenuTapped"/>
                 </VerticalStackLayout.GestureRecognizers>
-                <Label Text="▮" FontSize="24" HorizontalTextAlignment="Center" TextColor="#2F9E8F" />
-                <Label Text="Guia" FontSize="11" HorizontalTextAlignment="Center" TextColor="#2F9E8F" FontAttributes="Bold" />
+                <Label Text="▮" FontSize="24"
+                       HorizontalTextAlignment="Center"
+                       TextColor="#2F9E8F"/>
+                <Label Text="Guia" FontSize="11"
+                       HorizontalTextAlignment="Center"
+                       TextColor="#2F9E8F"
+                       FontAttributes="Bold"/>
             </VerticalStackLayout>
 
-            <VerticalStackLayout Grid.Column="4" Spacing="3" HorizontalOptions="Fill">
+            <VerticalStackLayout Grid.Column="4" Spacing="3">
                 <VerticalStackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnPerfilMenuTapped" />
+                    <TapGestureRecognizer Tapped="OnPerfilMenuTapped"/>
                 </VerticalStackLayout.GestureRecognizers>
-                <Label Text="♙" FontSize="24" HorizontalTextAlignment="Center" TextColor="#9AA7B3" />
-                <Label Text="Perfil" FontSize="11" HorizontalTextAlignment="Center" TextColor="#9AA7B3" />
+                <Label Text="♙" FontSize="24"
+                       HorizontalTextAlignment="Center"
+                       TextColor="#9AA7B3"/>
+                <Label Text="Perfil" FontSize="11"
+                       HorizontalTextAlignment="Center"
+                       TextColor="#9AA7B3"/>
             </VerticalStackLayout>
+
         </Grid>
     </Grid>
 </ContentPage>
