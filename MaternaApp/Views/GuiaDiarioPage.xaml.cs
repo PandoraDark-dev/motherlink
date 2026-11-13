@@ -1,13 +1,25 @@
+
 namespace MaternaApp.Views;
 
 public partial class GuiaDiarioPage : ContentPage
 {
     private int _horasSono = 4;
-    private int _movimentos = 0;
+    private int _movimentos;
 
-    public GuiaDiarioPage()
+    public int GestanteId { get; }
+    public string NomeGestante { get; }
+
+    public GuiaDiarioPage() : this(0, string.Empty)
+    {
+    }
+
+    public GuiaDiarioPage(int gestanteId, string nomeGestante)
     {
         InitializeComponent();
+
+        GestanteId = gestanteId;
+        NomeGestante = nomeGestante;
+
         AtualizarSono();
     }
 
@@ -94,10 +106,7 @@ public partial class GuiaDiarioPage : ContentPage
 
         if (humor is null)
         {
-            await DisplayAlertAsync(
-                "Atenção",
-                "Selecione como você está se sentindo hoje.",
-                "OK");
+            await DisplayAlertAsync("Atenção", "Selecione como você está se sentindo hoje.", "OK");
             return;
         }
 
@@ -134,16 +143,16 @@ public partial class GuiaDiarioPage : ContentPage
 
     private async void OnSemanarioClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new GuiaSemanarioPage());
+        await Navigation.PushAsync(new GuiaSemanarioPage(GestanteId, NomeGestante));
     }
 
     private async void OnSuplementosClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new GuiaSuplementosPage());
+        await Navigation.PushAsync(new GuiaSuplementosPage(GestanteId, NomeGestante));
     }
 
     private async void OnPlanoPartoClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new GuiaPartoPage());
+        await Navigation.PushAsync(new GuiaPartoPage(GestanteId, NomeGestante));
     }
 }

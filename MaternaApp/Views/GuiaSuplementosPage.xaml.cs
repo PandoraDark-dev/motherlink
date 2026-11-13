@@ -1,4 +1,6 @@
 
+using MaternaApp.Services;
+
 namespace MaternaApp.Views;
 
 public partial class GuiaSuplementosPage : ContentPage
@@ -6,16 +8,9 @@ public partial class GuiaSuplementosPage : ContentPage
     public int GestanteId { get; }
     public string NomeGestante { get; }
 
-    private readonly string[] _dias = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Hoje"];
-
-    private readonly Dictionary<string, bool[]> _historico = new()
-    {
-        ["Ácido Fólico"] = [true, true, false, true, true, true, false],
-        ["Sulfato Ferroso"] = [true, false, true, true, true, false, false],
-        ["Cálcio"] = [true, true, true, false, true, true, false]
-    };
-
-    private readonly Dictionary<string, (Button Botao, string Cor)> _botoes = new();
+    private readonly ApiService _api = new();
+    private List<SuplementoResponse> _suplementos = [];
+    private List<RegistroSuplementoResponse> _registros = [];
 
     public GuiaSuplementosPage() : this(0, string.Empty)
     {
@@ -28,111 +23,246 @@ public partial class GuiaSuplementosPage : ContentPage
         GestanteId = gestanteId;
         NomeGestante = nomeGestante;
 
-        _botoes["Ácido Fólico"] = (AcidoFolicoButton, "#20BF62");
-        _botoes["Sulfato Ferroso"] = (FerroButton, "#EF4148");
-        _botoes["Cálcio"] = (CalcioButton, "#347FF0");
-
-        AtualizarBotoes();
-        AtualizarHistorico();
+        DataHistoricoPicker.Date = DateTime.Today;
+        DataHistoricoPicker.MaximumDate = DateTime.Today;
     }
 
-    private void MarcarSuplemento(string nome)
+    protected override async void OnAppearing()
     {
-        _historico[nome][6] = !_historico[nome][6];
-        AtualizarBotoes();
-        AtualizarHistorico();
-    }
+        base.OnAppearing();
 
-    private void AtualizarBotoes()
-    {
-        foreach (var item in _botoes)
+        if (GestanteId <= 0)
         {
-            bool tomado = _historico[item.Key][6];
+            SuplementosStack.Children.Clear();
+            SuplementosStack.Children.Add(new Label
+            {
+                Text = "Não foi possível identificar a gestante.",
+                TextColor = Color.FromArgb("#81938F"),
+                HorizontalTextAlignment = TextAlignment.Center
+            });
+            return;
+        }
 
-            item.Value.Botao.Text = tomado ? "✓ Tomei hoje" : "Marcar como tomado";
-            item.Value.Botao.BackgroundColor = tomado
-                ? Color.FromArgb(item.Value.Cor)
-                : Color.FromArgb("#AAB5BC");
+        await CarregarSuplementos();
+        await CarregarHistorico(DateTime.Today);
+    }
+
+    private async Task CarregarSuplementos()
+    {
+        try
+        {
+            _suplementos = (await _api.ListarSuplementos(GestanteId)).ToList();
+            _registros = (await _api.ListarHistoricoSuplementos(GestanteId, DateTime.Today)).ToList();
+
+            SuplementosStack.Children.Clear();
+
+            if (_suplementos.Count == 0)
+            {
+                SuplementosStack.Children.Add(new Label
+                {
+                    Text = "Nenhum suplemento foi cadastrado para você.",
+                    TextColor = Color.FromArgb("#81938F"),
+                    HorizontalTextAlignment = TextAlignment.Center,
+                    Margin = new Thickness(0, 12)
+                });
+                return;
+            }
+
+            foreach (var suplemento in _suplementos)
+                CriarCartaoSuplemento(suplemento);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erro", ex.Message, "OK");
         }
     }
 
-    private void AtualizarHistorico()
+    private void CriarCartaoSuplemento(SuplementoResponse suplemento)
     {
-        while (HistoricoStack.Children.Count > 1)
-            HistoricoStack.Children.RemoveAt(1);
+        var conteudo = new VerticalStackLayout { Spacing = 10 };
 
-        foreach (var item in _historico)
+        conteudo.Children.Add(new Label
         {
-            HistoricoStack.Children.Add(new Label
+            Text = suplemento.Nome,
+            FontSize = 17,
+            FontAttributes = FontAttributes.Bold,
+            TextColor = Color.FromArgb("#263746")
+        });
+
+        conteudo.Children.Add(new Label
+        {
+            Text = $"Dosagem: {suplemento.Dosagem}",
+            FontSize = 13,
+            TextColor = Color.FromArgb("#77858F")
+        });
+
+        if (!string.IsNullOrWhiteSpace(suplemento.Orientacoes))
+        {
+            conteudo.Children.Add(new Label
             {
-                Text = item.Key,
+                Text = suplemento.Orientacoes,
                 FontSize = 13,
                 TextColor = Color.FromArgb("#77858F")
             });
+        }
 
-            var linha = new Grid
+        foreach (var horario in suplemento.Horarios ?? [])
+        {
+            var registro = _registros.FirstOrDefault(r =>
+                r.SuplementoId == suplemento.Id &&
+                r.Horario == horario);
+
+            bool tomado = registro?.Tomado == true;
+
+            var botao = new Button
             {
-                ColumnDefinitions = new ColumnDefinitionCollection
-                {
-                    new(), new(), new(), new(), new(), new(), new()
-                },
-                ColumnSpacing = 4
+                Text = tomado ? $"✓ Tomado às {horario}" : $"Marcar dose das {horario} como tomada",
+                BackgroundColor = Color.FromArgb(tomado ? "#20A765" : "#D9534F"),
+                TextColor = Colors.White,
+                CornerRadius = 12,
+                HeightRequest = 46,
+                FontSize = 13
             };
 
-            for (int i = 0; i < _dias.Length; i++)
+            botao.Clicked += async (_, _) =>
+                await RegistrarDose(suplemento, horario, !tomado);
+
+            conteudo.Children.Add(botao);
+        }
+
+        SuplementosStack.Children.Add(new Border
+        {
+            BackgroundColor = Colors.White,
+            Stroke = Color.FromArgb("#E5EFEC"),
+            Padding = 18,
+            StrokeShape = new Microsoft.Maui.Controls.Shapes.RoundRectangle
             {
-                bool tomado = item.Value[i];
-                var cor = Color.FromArgb(_botoes[item.Key].Cor);
+                CornerRadius = 20
+            },
+            Content = conteudo
+        });
+    }
 
-                linha.Add(new Border
+    private async Task RegistrarDose(SuplementoResponse suplemento, string horario, bool tomado)
+    {
+        try
+        {
+            await _api.RegistrarDose(
+                suplemento.Id,
+                new DoseSuplementoRequest
                 {
-                    BackgroundColor = tomado ? cor.WithAlpha(0.13f) : Color.FromArgb("#F5F7F8"),
-                    StrokeThickness = 0,
-                    StrokeShape = new Microsoft.Maui.Controls.Shapes.RoundRectangle
-                    {
-                        CornerRadius = 6
-                    },
-                    Padding = 5,
-                    Content = new Label
-                    {
-                        Text = tomado ? "✓" : "-",
-                        TextColor = tomado ? cor : Color.FromArgb("#C5CDD2"),
-                        FontSize = 13,
-                        HorizontalTextAlignment = TextAlignment.Center
-                    }
-                }, i);
-            }
+                    Data = DateTime.Today,
+                    Horario = horario,
+                    Tomado = tomado
+                });
 
-            HistoricoStack.Children.Add(linha);
-
-            var dias = new Grid
-            {
-                ColumnDefinitions = new ColumnDefinitionCollection
-                {
-                    new(), new(), new(), new(), new(), new(), new()
-                }
-            };
-
-            for (int i = 0; i < _dias.Length; i++)
-            {
-                dias.Add(new Label
-                {
-                    Text = _dias[i],
-                    FontSize = 10,
-                    TextColor = Color.FromArgb("#9AA7B3"),
-                    HorizontalTextAlignment = TextAlignment.Center
-                }, i);
-            }
-
-            HistoricoStack.Children.Add(dias);
+            await CarregarSuplementos();
+            await CarregarHistorico(DataHistoricoPicker.Date ?? DateTime.Today);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erro", ex.Message, "OK");
         }
     }
 
-    private void OnAcidoFolicoClicked(object sender, EventArgs e) => MarcarSuplemento("Ácido Fólico");
+    private async Task CarregarHistorico(DateTime data)
+    {
+        try
+        {
+            var registros = (await _api.ListarHistoricoSuplementos(GestanteId, data)).ToList();
 
-    private void OnFerroClicked(object sender, EventArgs e) => MarcarSuplemento("Sulfato Ferroso");
+            HistoricoDosesStack.Children.Clear();
 
-    private void OnCalcioClicked(object sender, EventArgs e) => MarcarSuplemento("Cálcio");
+            if (_suplementos.Count == 0)
+            {
+                HistoricoDosesStack.Children.Add(new Label
+                {
+                    Text = "Não há suplementos cadastrados.",
+                    TextColor = Color.FromArgb("#81938F")
+                });
+                return;
+            }
+
+            foreach (var suplemento in _suplementos)
+            {
+                foreach (var horario in suplemento.Horarios ?? [])
+                {
+                    var registro = registros.FirstOrDefault(r =>
+                        r.SuplementoId == suplemento.Id &&
+                        r.Horario == horario);
+
+                    bool tomado = registro?.Tomado == true;
+
+                    var linha = new Grid
+                    {
+                        ColumnDefinitions =
+                        {
+                            new ColumnDefinition(GridLength.Star),
+                            new ColumnDefinition(GridLength.Auto)
+                        },
+                        ColumnSpacing = 8
+                    };
+
+                    linha.Add(new VerticalStackLayout
+                    {
+                        Spacing = 2,
+                        Children =
+                        {
+                            new Label
+                            {
+                                Text = suplemento.Nome,
+                                FontSize = 13,
+                                FontAttributes = FontAttributes.Bold,
+                                TextColor = Color.FromArgb("#263746")
+                            },
+                            new Label
+                            {
+                                Text = $"Dose das {horario}",
+                                FontSize = 12,
+                                TextColor = Color.FromArgb("#9AA7B3")
+                            }
+                        }
+                    }, 0);
+
+                    linha.Add(new Label
+                    {
+                        Text = tomado ? "Tomado" : "Não tomado",
+                        FontSize = 12,
+                        FontAttributes = FontAttributes.Bold,
+                        TextColor = Color.FromArgb(tomado ? "#20A765" : "#D9534F"),
+                        VerticalOptions = LayoutOptions.Center
+                    }, 1);
+
+                    HistoricoDosesStack.Children.Add(linha);
+
+                    if (registro != null)
+                    {
+                        HistoricoDosesStack.Children.Add(new Label
+                        {
+                            Text = $"Registro: {registro.RegistradoEm:HH:mm}",
+                            FontSize = 11,
+                            TextColor = Color.FromArgb("#9AA7B3")
+                        });
+                    }
+
+                    HistoricoDosesStack.Children.Add(new BoxView
+                    {
+                        HeightRequest = 1,
+                        BackgroundColor = Color.FromArgb("#EEF2F1")
+                    });
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erro", ex.Message, "OK");
+        }
+    }
+
+    private async void OnDataHistoricoChanged(object sender, DateChangedEventArgs e)
+    {
+        await CarregarHistorico(DataHistoricoPicker.Date ?? DateTime.Today);
+    }
 
     private async void OnDiarioClicked(object sender, EventArgs e)
     {

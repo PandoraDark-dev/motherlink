@@ -184,6 +184,15 @@
                             IsEnabled="False"
                             Clicked="OnAbrirModalConsultaClicked"/>
 
+                    <Button x:Name="btnGerenciarSuplementos"
+                            Text="Gerenciar suplementos"
+                            BackgroundColor="#347F80"
+                            TextColor="White"
+                            CornerRadius="10"
+                            HeightRequest="48"
+                            IsEnabled="False"
+                            Clicked="OnAbrirSuplementosClicked"/>
+
                     <Frame Padding="20" CornerRadius="14" HasShadow="False" BackgroundColor="White">
                         <VerticalStackLayout Spacing="10">
                             <Label Text="Acompanhamento" FontSize="17"

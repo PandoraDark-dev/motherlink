@@ -21,6 +21,14 @@ public class ApiService
         };
     }
 
+    private async Task<T?> Enviar<T>(HttpResponseMessage resposta)
+    {
+        if (!resposta.IsSuccessStatusCode)
+            throw new HttpRequestException(await resposta.Content.ReadAsStringAsync());
+
+        return await resposta.Content.ReadFromJsonAsync<T>(_jsonOptions);
+    }
+
     public async Task<LoginResponse?> LoginGestante(string cpf, string cartaoSUS, string senha)
     {
         return await Login(new LoginRequest
@@ -61,21 +69,13 @@ public class ApiService
     public async Task<GestanteResponse?> CadastrarGestante(GestanteRequest dados)
     {
         var resposta = await _httpClient.PostAsJsonAsync("api/Gestantes", dados);
-
-        if (!resposta.IsSuccessStatusCode)
-            throw new HttpRequestException(await resposta.Content.ReadAsStringAsync());
-
-        return await resposta.Content.ReadFromJsonAsync<GestanteResponse>(_jsonOptions);
+        return await Enviar<GestanteResponse>(resposta);
     }
 
     public async Task<List<GestanteResponse>> ListarGestantes()
     {
         var resposta = await _httpClient.GetAsync("api/Gestantes");
-
-        if (!resposta.IsSuccessStatusCode)
-            throw new HttpRequestException(await resposta.Content.ReadAsStringAsync());
-
-        return await resposta.Content.ReadFromJsonAsync<List<GestanteResponse>>(_jsonOptions) ?? new();
+        return await Enviar<List<GestanteResponse>>(resposta) ?? new();
     }
 
     public async Task<GestanteResponse?> BuscarGestantePorId(int id)
@@ -85,59 +85,106 @@ public class ApiService
         if (resposta.StatusCode == System.Net.HttpStatusCode.NotFound)
             return null;
 
-        resposta.EnsureSuccessStatusCode();
-
-        return await resposta.Content.ReadFromJsonAsync<GestanteResponse>(_jsonOptions);
+        return await Enviar<GestanteResponse>(resposta);
     }
 
     public async Task<List<ConsultaResponse>> ListarConsultasGestante(int gestanteId)
     {
         var resposta = await _httpClient.GetAsync($"api/Consultas/gestante/{gestanteId}");
-
-        if (!resposta.IsSuccessStatusCode)
-            throw new HttpRequestException(await resposta.Content.ReadAsStringAsync());
-
-        return await resposta.Content.ReadFromJsonAsync<List<ConsultaResponse>>(_jsonOptions) ?? new();
+        return await Enviar<List<ConsultaResponse>>(resposta) ?? new();
     }
 
     public async Task<List<BuscaAtivaResponse>> ListarBuscaAtiva()
     {
         var resposta = await _httpClient.GetAsync("api/Consultas/busca-ativa");
-
-        if (!resposta.IsSuccessStatusCode)
-            throw new HttpRequestException(await resposta.Content.ReadAsStringAsync());
-
-        return await resposta.Content.ReadFromJsonAsync<List<BuscaAtivaResponse>>(_jsonOptions) ?? new();
+        return await Enviar<List<BuscaAtivaResponse>>(resposta) ?? new();
     }
 
     public async Task<ConsultaResponse?> CadastrarConsulta(ConsultaRequest dados)
     {
         var resposta = await _httpClient.PostAsJsonAsync("api/Consultas", dados);
-
-        if (!resposta.IsSuccessStatusCode)
-            throw new HttpRequestException(await resposta.Content.ReadAsStringAsync());
-
-        return await resposta.Content.ReadFromJsonAsync<ConsultaResponse>(_jsonOptions);
+        return await Enviar<ConsultaResponse>(resposta);
     }
 
     public async Task<List<ProfissionalResponse>> ListarProfissionais()
     {
         var resposta = await _httpClient.GetAsync("api/Profissionais");
-
-        if (!resposta.IsSuccessStatusCode)
-            throw new HttpRequestException(await resposta.Content.ReadAsStringAsync());
-
-        return await resposta.Content.ReadFromJsonAsync<List<ProfissionalResponse>>(_jsonOptions) ?? new();
+        return await Enviar<List<ProfissionalResponse>>(resposta) ?? new();
     }
 
     public async Task<ProfissionalResponse?> CadastrarProfissional(ProfissionalRequest dados)
     {
         var resposta = await _httpClient.PostAsJsonAsync("api/Profissionais", dados);
+        return await Enviar<ProfissionalResponse>(resposta);
+    }
+
+    public async Task<PlanoPartoResponse?> BuscarPlanoParto(int gestanteId)
+    {
+        var resposta = await _httpClient.GetAsync($"api/PlanosParto/gestante/{gestanteId}");
+
+        if (resposta.StatusCode == System.Net.HttpStatusCode.NotFound)
+            return null;
+
+        return await Enviar<PlanoPartoResponse>(resposta);
+    }
+
+    public async Task<PlanoPartoResponse?> SalvarPlanoParto(int gestanteId, Dictionary<string, string> preferencias)
+    {
+        var dados = new PlanoPartoResponse
+        {
+            GestanteId = gestanteId,
+            Preferencias = preferencias
+        };
+
+        var resposta = await _httpClient.PutAsJsonAsync(
+            $"api/PlanosParto/gestante/{gestanteId}", dados);
+
+        return await Enviar<PlanoPartoResponse>(resposta);
+    }
+
+    public async Task<List<SuplementoResponse>> ListarSuplementos(int gestanteId)
+    {
+        var resposta = await _httpClient.GetAsync($"api/Suplementos/gestante/{gestanteId}");
+        return await Enviar<List<SuplementoResponse>>(resposta) ?? new();
+    }
+
+    public async Task<SuplementoResponse?> CadastrarSuplemento(SuplementoRequest dados)
+    {
+        var resposta = await _httpClient.PostAsJsonAsync("api/Suplementos", dados);
+        return await Enviar<SuplementoResponse>(resposta);
+    }
+
+    public async Task<SuplementoResponse?> AtualizarSuplemento(int id, SuplementoRequest dados)
+    {
+        var resposta = await _httpClient.PutAsJsonAsync($"api/Suplementos/{id}", dados);
+        return await Enviar<SuplementoResponse>(resposta);
+    }
+
+    public async Task ExcluirSuplemento(int id)
+    {
+        var resposta = await _httpClient.DeleteAsync($"api/Suplementos/{id}");
 
         if (!resposta.IsSuccessStatusCode)
             throw new HttpRequestException(await resposta.Content.ReadAsStringAsync());
+    }
 
-        return await resposta.Content.ReadFromJsonAsync<ProfissionalResponse>(_jsonOptions);
+    public async Task<List<RegistroSuplementoResponse>> ListarHistoricoSuplementos(int gestanteId, DateTime? data = null)
+    {
+        var url = $"api/Suplementos/historico/{gestanteId}";
+
+        if (data.HasValue)
+            url += $"?data={data.Value:yyyy-MM-dd}";
+
+        var resposta = await _httpClient.GetAsync(url);
+        return await Enviar<List<RegistroSuplementoResponse>>(resposta) ?? new();
+    }
+
+    public async Task<RegistroSuplementoResponse?> RegistrarDose(int suplementoId, DoseSuplementoRequest dados)
+    {
+        var resposta = await _httpClient.PostAsJsonAsync(
+            $"api/Suplementos/{suplementoId}/doses", dados);
+
+        return await Enviar<RegistroSuplementoResponse>(resposta);
     }
 }
 
@@ -229,4 +276,53 @@ public class ProfissionalResponse
     public string Especialidade { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Funcao { get; set; } = string.Empty;
+}
+
+public class PlanoPartoResponse
+{
+    public int Id { get; set; }
+    public int GestanteId { get; set; }
+    public Dictionary<string, string> Preferencias { get; set; } = new();
+    public DateTime AtualizadoEm { get; set; }
+}
+
+public class SuplementoRequest
+{
+    public int GestanteId { get; set; }
+    public int ProfissionalId { get; set; }
+    public string Nome { get; set; } = string.Empty;
+    public string Dosagem { get; set; } = string.Empty;
+    public List<string> Horarios { get; set; } = new();
+    public string Orientacoes { get; set; } = string.Empty;
+}
+
+public class SuplementoResponse
+{
+    public int Id { get; set; }
+    public int GestanteId { get; set; }
+    public int ProfissionalId { get; set; }
+    public string Nome { get; set; } = string.Empty;
+    public string Dosagem { get; set; } = string.Empty;
+    public List<string> Horarios { get; set; } = new();
+    public string Orientacoes { get; set; } = string.Empty;
+    public DateTime CadastradoEm { get; set; }
+    public bool Ativo { get; set; }
+}
+
+public class DoseSuplementoRequest
+{
+    public DateTime Data { get; set; }
+    public string Horario { get; set; } = string.Empty;
+    public bool Tomado { get; set; }
+}
+
+public class RegistroSuplementoResponse
+{
+    public int Id { get; set; }
+    public int SuplementoId { get; set; }
+    public int GestanteId { get; set; }
+    public DateTime Data { get; set; }
+    public string Horario { get; set; } = string.Empty;
+    public bool Tomado { get; set; }
+    public DateTime? RegistradoEm { get; set; }
 }

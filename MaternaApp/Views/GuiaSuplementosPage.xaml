@@ -26,52 +26,26 @@
                 <Border BackgroundColor="White" Stroke="#E5EFEC" Padding="18" StrokeShape="RoundRectangle 20">
                     <VerticalStackLayout Spacing="6">
                         <Label Text="Meus Suplementos" FontSize="19" FontAttributes="Bold" TextColor="#263746" />
-                        <Label Text="Marque cada medicamento que tomou hoje" FontSize="13" TextColor="#9AA7B3" />
+                        <Label Text="Marque cada dose após tomar o suplemento." FontSize="13" TextColor="#9AA7B3" />
                     </VerticalStackLayout>
                 </Border>
+
+                <VerticalStackLayout x:Name="SuplementosStack" Spacing="12">
+                    <Label Text="Carregando suplementos..." TextColor="#81938F" HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
 
                 <Border BackgroundColor="White" Stroke="#E5EFEC" Padding="18" StrokeShape="RoundRectangle 20">
                     <VerticalStackLayout Spacing="12">
-                        <Grid ColumnDefinitions="42,*" ColumnSpacing="10">
-                            <Label Text="💊" FontSize="27" VerticalOptions="Center" />
-                            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
-                                <Label Text="Ácido Fólico" FontSize="16" FontAttributes="Bold" TextColor="#263746" />
-                                <Label Text="400mcg · 1x ao dia" FontSize="13" TextColor="#9AA7B3" />
-                            </VerticalStackLayout>
-                        </Grid>
-                        <Button x:Name="AcidoFolicoButton" Text="✓ Tomei hoje" Clicked="OnAcidoFolicoClicked" BackgroundColor="#20BF62" TextColor="White" CornerRadius="14" HeightRequest="48" />
-                    </VerticalStackLayout>
-                </Border>
-
-                <Border BackgroundColor="White" Stroke="#E5EFEC" Padding="18" StrokeShape="RoundRectangle 20">
-                    <VerticalStackLayout Spacing="12">
-                        <Grid ColumnDefinitions="42,*" ColumnSpacing="10">
-                            <Label Text="🔴" FontSize="27" VerticalOptions="Center" />
-                            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
-                                <Label Text="Sulfato Ferroso" FontSize="16" FontAttributes="Bold" TextColor="#263746" />
-                                <Label Text="40mg · 2x ao dia" FontSize="13" TextColor="#9AA7B3" />
-                            </VerticalStackLayout>
-                        </Grid>
-                        <Button x:Name="FerroButton" Text="✓ Tomei hoje" Clicked="OnFerroClicked" BackgroundColor="#EF4148" TextColor="White" CornerRadius="14" HeightRequest="48" />
-                    </VerticalStackLayout>
-                </Border>
-
-                <Border BackgroundColor="White" Stroke="#E5EFEC" Padding="18" StrokeShape="RoundRectangle 20">
-                    <VerticalStackLayout Spacing="12">
-                        <Grid ColumnDefinitions="42,*" ColumnSpacing="10">
-                            <Label Text="🦷" FontSize="27" VerticalOptions="Center" />
-                            <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
-                                <Label Text="Cálcio" FontSize="16" FontAttributes="Bold" TextColor="#263746" />
-                                <Label Text="500mg · 1x ao dia" FontSize="13" TextColor="#9AA7B3" />
-                            </VerticalStackLayout>
-                        </Grid>
-                        <Button x:Name="CalcioButton" Text="✓ Tomei hoje" Clicked="OnCalcioClicked" BackgroundColor="#347FF0" TextColor="White" CornerRadius="14" HeightRequest="48" />
-                    </VerticalStackLayout>
-                </Border>
-
-                <Border BackgroundColor="White" Stroke="#E5EFEC" Padding="18" StrokeShape="RoundRectangle 20">
-                    <VerticalStackLayout x:Name="HistoricoStack" Spacing="12">
-                        <Label Text="HISTÓRICO DA SEMANA" FontSize="14" FontAttributes="Bold" TextColor="#77858F" />
+                        <Label Text="HISTÓRICO DE DOSES" FontSize="14" FontAttributes="Bold" TextColor="#77858F" />
+                        <Label Text="Selecione uma data para consultar os registros." FontSize="13" TextColor="#9AA7B3" />
+                        <DatePicker x:Name="DataHistoricoPicker"
+                                    Format="dd/MM/yyyy"
+                                    MaximumDate="{Binding Source={x:Reference DataHistoricoPicker}, Path=Date}"
+                                    DateSelected="OnDataHistoricoChanged"
+                                    TextColor="#263746" />
+                        <VerticalStackLayout x:Name="HistoricoDosesStack" Spacing="10">
+                            <Label Text="Carregando histórico..." TextColor="#81938F" />
+                        </VerticalStackLayout>
                     </VerticalStackLayout>
                 </Border>
             </VerticalStackLayout>

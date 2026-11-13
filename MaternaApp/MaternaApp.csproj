@@ -82,6 +82,9 @@
 		<MauiXaml Update="Views\EsusPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="Views\GerenciarSuplementosPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Views\GuiaDiarioPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

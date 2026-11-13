@@ -64,6 +64,7 @@ public partial class PainelProfissionalPage : ContentPage
 
         _gestanteSelecionada = gestante;
         btnAgendarConsulta.IsEnabled = true;
+        btnGerenciarSuplementos.IsEnabled = true;
 
         lblNomeGestanteExemplo.Text = gestante.Nome;
         lblCpfGestante.Text = gestante.CPF;
@@ -211,6 +212,20 @@ public partial class PainelProfissionalPage : ContentPage
         {
             await DisplayAlert("Erro ao agendar", ex.Message, "OK");
         }
+    }
+
+    private async void OnAbrirSuplementosClicked(object sender, EventArgs e)
+    {
+        if (_gestanteSelecionada == null)
+        {
+            await DisplayAlert("Atenção", "Selecione uma gestante.", "OK");
+            return;
+        }
+
+        await Navigation.PushAsync(new GerenciarSuplementosPage(
+            _gestanteSelecionada.Id,
+            _gestanteSelecionada.Nome,
+            _profissionalId));
     }
 
     private async void OnAbrirBuscaAtivaTapped(object sender, TappedEventArgs e)

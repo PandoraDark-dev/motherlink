@@ -156,6 +156,78 @@
                     </VerticalStackLayout>
                 </Frame>
 
+                <Frame Padding="18"
+                       CornerRadius="14"
+                       HasShadow="False"
+                       BackgroundColor="White">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Plano de Parto"
+                               FontSize="17"
+                               FontAttributes="Bold"
+                               TextColor="#244A45"/>
+
+                        <Label Text="Preferências registradas pela gestante"
+                               FontSize="12"
+                               TextColor="#81938F"/>
+
+                        <BoxView HeightRequest="1" Color="#E8EFED"/>
+
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Acompanhante" FontSize="12" TextColor="#81938F"/>
+                            <Label x:Name="lblAcompanhante" Text="Não informado"
+                                   FontSize="14" TextColor="#244A45"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Tipo de parto preferido" FontSize="12" TextColor="#81938F"/>
+                            <Label x:Name="lblTipoParto" Text="Não informado"
+                                   FontSize="14" TextColor="#244A45"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Alívio da dor" FontSize="12" TextColor="#81938F"/>
+                            <Label x:Name="lblAlivioDor" Text="Não informado"
+                                   FontSize="14" TextColor="#244A45"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Corte do cordão umbilical" FontSize="12" TextColor="#81938F"/>
+                            <Label x:Name="lblCordao" Text="Não informado"
+                                   FontSize="14" TextColor="#244A45"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Contato pele a pele" FontSize="12" TextColor="#81938F"/>
+                            <Label x:Name="lblPelePele" Text="Não informado"
+                                   FontSize="14" TextColor="#244A45"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Amamentação" FontSize="12" TextColor="#81938F"/>
+                            <Label x:Name="lblAmamentacao" Text="Não informado"
+                                   FontSize="14" TextColor="#244A45"/>
+                        </VerticalStackLayout>
+
+                        <BoxView HeightRequest="1" Color="#E8EFED"/>
+
+                        <Label x:Name="lblAtualizacaoPlano"
+                               Text="Nenhum plano registrado"
+                               FontSize="11"
+                               TextColor="#81938F"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Button x:Name="btnExportar"
+                        Text="Exportar relatório em PDF"
+                        FontAttributes="Bold"
+                        FontSize="15"
+                        TextColor="White"
+                        BackgroundColor="#17685F"
+                        CornerRadius="12"
+                        HeightRequest="52"
+                        IsEnabled="False"
+                        Clicked="OnExportarPdfClicked"/>
+
             </VerticalStackLayout>
         </ScrollView>
     </Grid>

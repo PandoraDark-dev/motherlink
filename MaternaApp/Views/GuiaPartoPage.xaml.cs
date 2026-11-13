@@ -1,6 +1,7 @@
 
 using System.Text;
 using System.Text.Json;
+using MaternaApp.Services;
 using Microsoft.Maui.ApplicationModel.DataTransfer;
 using Microsoft.Maui.Storage;
 
@@ -11,7 +12,15 @@ public partial class GuiaPartoPage : ContentPage
     public int GestanteId { get; }
     public string NomeGestante { get; }
 
+    private readonly ApiService _api = new();
     private readonly Dictionary<string, string> _preferencias = new();
+    private bool _carregando;
+
+    private static readonly string[] Grupos =
+    {
+        "Acompanhante", "TipoParto", "AlivioDor",
+        "Cordao", "PelePele", "Amamentacao"
+    };
 
     public GuiaPartoPage() : this(0, string.Empty)
     {
@@ -20,17 +29,14 @@ public partial class GuiaPartoPage : ContentPage
     public GuiaPartoPage(int gestanteId, string nomeGestante)
     {
         InitializeComponent();
-
         GestanteId = gestanteId;
         NomeGestante = nomeGestante;
-
         CarregarPlano();
-        AtualizarProgresso();
     }
 
     private void OnOpcaoChanged(object sender, CheckedChangedEventArgs e)
     {
-        if (!e.Value || sender is not RadioButton radio)
+        if (!e.Value || _carregando || sender is not RadioButton radio)
             return;
 
         _preferencias[radio.GroupName] = radio.Value?.ToString() ?? string.Empty;
@@ -39,34 +45,74 @@ public partial class GuiaPartoPage : ContentPage
 
     private void AtualizarProgresso()
     {
-        ProgressoLabel.Text = $"{_preferencias.Count}/6";
+        ProgressoLabel.Text = $"{Grupos.Count(g => _preferencias.ContainsKey(g))}/6";
     }
 
     private string ChavePlano => $"PlanoParto_{GestanteId}";
 
-    private void CarregarPlano()
+    private async void CarregarPlano()
     {
-        var json = Preferences.Get(ChavePlano, string.Empty);
-
-        if (string.IsNullOrWhiteSpace(json))
+        if (GestanteId <= 0)
             return;
 
-        var dados = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+        try
+        {
+            var plano = await _api.BuscarPlanoParto(GestanteId);
 
-        if (dados == null)
-            return;
+            if (plano != null)
+            {
+                AplicarPreferencias(plano.Preferencias);
+                Preferences.Set(ChavePlano, JsonSerializer.Serialize(_preferencias));
+                return;
+            }
 
-        foreach (var item in dados)
-            _preferencias[item.Key] = item.Value;
+            var json = Preferences.Get(ChavePlano, string.Empty);
+
+            if (string.IsNullOrWhiteSpace(json))
+                return;
+
+            var dados = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+
+            if (dados == null)
+                return;
+
+            AplicarPreferencias(dados);
+            await _api.SalvarPlanoParto(GestanteId, _preferencias);
+        }
+        catch
+        {
+            var json = Preferences.Get(ChavePlano, string.Empty);
+
+            if (!string.IsNullOrWhiteSpace(json))
+            {
+                var dados = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+
+                if (dados != null)
+                    AplicarPreferencias(dados);
+            }
+        }
+    }
+
+    private void AplicarPreferencias(Dictionary<string, string> dados)
+    {
+        _carregando = true;
+        _preferencias.Clear();
+
+        foreach (var grupo in Grupos)
+        {
+            if (dados.TryGetValue(grupo, out var valor))
+                _preferencias[grupo] = valor;
+        }
 
         foreach (var radio in ObterRadios())
         {
-            if (_preferencias.TryGetValue(radio.GroupName, out var valor) &&
-                radio.Value?.ToString() == valor)
-            {
-                radio.IsChecked = true;
-            }
+            radio.IsChecked =
+                _preferencias.TryGetValue(radio.GroupName, out var valor) &&
+                radio.Value?.ToString() == valor;
         }
+
+        _carregando = false;
+        AtualizarProgresso();
     }
 
     private IEnumerable<RadioButton> ObterRadios()
@@ -94,12 +140,33 @@ public partial class GuiaPartoPage : ContentPage
 
     private async void OnSalvarClicked(object sender, EventArgs e)
     {
-        Preferences.Set(ChavePlano, JsonSerializer.Serialize(_preferencias));
+        if (GestanteId <= 0)
+        {
+            await DisplayAlertAsync("Atenção", "Não foi possível identificar a gestante.", "OK");
+            return;
+        }
 
-        await DisplayAlertAsync(
-            "Plano salvo",
-            "Suas preferências foram salvas neste dispositivo.",
-            "OK");
+        if (_preferencias.Count == 0)
+        {
+            await DisplayAlertAsync("Atenção", "Selecione pelo menos uma opção.", "OK");
+            return;
+        }
+
+        try
+        {
+            var salvo = await _api.SalvarPlanoParto(GestanteId, _preferencias);
+
+            if (salvo == null)
+                throw new Exception("A API não confirmou o salvamento.");
+
+            Preferences.Set(ChavePlano, JsonSerializer.Serialize(_preferencias));
+
+            await DisplayAlertAsync("Plano salvo", "Suas preferências foram enviadas para a API.", "OK");
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Erro", $"Não foi possível salvar o plano na API.\n{ex.Message}", "OK");
+        }
     }
 
     private async void OnCompartilharClicked(object sender, EventArgs e)
@@ -110,11 +177,6 @@ public partial class GuiaPartoPage : ContentPage
             return;
         }
 
-        var texto = new StringBuilder();
-        texto.AppendLine("PLANO DE PARTO");
-        texto.AppendLine($"Gestante: {NomeGestante}");
-        texto.AppendLine();
-
         var nomes = new Dictionary<string, string>
         {
             ["Acompanhante"] = "Acompanhante",
@@ -124,6 +186,11 @@ public partial class GuiaPartoPage : ContentPage
             ["PelePele"] = "Contato pele a pele",
             ["Amamentacao"] = "Amamentação"
         };
+
+        var texto = new StringBuilder();
+        texto.AppendLine("PLANO DE PARTO");
+        texto.AppendLine($"Gestante: {NomeGestante}");
+        texto.AppendLine();
 
         foreach (var item in nomes)
             texto.AppendLine($"{item.Value}: {_preferencias.GetValueOrDefault(item.Key, "Não informado")}");
