@@ -63,8 +63,10 @@ public partial class PainelProfissionalPage : ContentPage
             return;
 
         _gestanteSelecionada = gestante;
+
         btnAgendarConsulta.IsEnabled = true;
         btnGerenciarSuplementos.IsEnabled = true;
+        btnAbrirChat.IsEnabled = true;
 
         lblNomeGestanteExemplo.Text = gestante.Nome;
         lblCpfGestante.Text = gestante.CPF;
@@ -76,6 +78,29 @@ public partial class PainelProfissionalPage : ContentPage
         lblStatusGestante.Text = "Ativa";
 
         ListaGestantes.SelectedItem = null;
+    }
+
+    private async void OnAbrirChatClicked(object sender, EventArgs e)
+    {
+        if (_gestanteSelecionada == null)
+        {
+            await DisplayAlert("Atenção", "Selecione uma gestante.", "OK");
+            return;
+        }
+
+        try
+        {
+            await Navigation.PushAsync(new ChatPage(
+                _gestanteSelecionada.Id,
+                _profissionalId,
+                _profissionalId,
+                "profissional",
+                _gestanteSelecionada.Nome));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erro ao abrir chat", ex.Message, "OK");
+        }
     }
 
     private void OnAbrirModalCadastroClicked(object sender, EventArgs e)

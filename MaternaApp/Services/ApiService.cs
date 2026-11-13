@@ -186,6 +186,24 @@ public class ApiService
 
         return await Enviar<RegistroSuplementoResponse>(resposta);
     }
+
+    public async Task<List<MensagemResponse>> ListarMensagensGestante(int gestanteId)
+    {
+        var resposta = await _httpClient.GetAsync($"api/Chat/gestante/{gestanteId}");
+        return await Enviar<List<MensagemResponse>>(resposta) ?? new();
+    }
+
+    public async Task<List<MensagemResponse>> ListarMensagensProfissional(int profissionalId)
+    {
+        var resposta = await _httpClient.GetAsync($"api/Chat/profissional/{profissionalId}");
+        return await Enviar<List<MensagemResponse>>(resposta) ?? new();
+    }
+
+    public async Task<MensagemResponse?> EnviarMensagem(MensagemRequest dados)
+    {
+        var resposta = await _httpClient.PostAsJsonAsync("api/Chat", dados);
+        return await Enviar<MensagemResponse>(resposta);
+    }
 }
 
 public class LoginRequest
@@ -325,4 +343,25 @@ public class RegistroSuplementoResponse
     public string Horario { get; set; } = string.Empty;
     public bool Tomado { get; set; }
     public DateTime? RegistradoEm { get; set; }
+}
+
+public class MensagemRequest
+{
+    public int GestanteId { get; set; }
+    public int ProfissionalId { get; set; }
+    public int RemetenteId { get; set; }
+    public string RemetenteTipo { get; set; } = string.Empty;
+    public string Conteudo { get; set; } = string.Empty;
+}
+
+public class MensagemResponse
+{
+    public int Id { get; set; }
+    public int GestanteId { get; set; }
+    public int ProfissionalId { get; set; }
+    public int RemetenteId { get; set; }
+    public string RemetenteTipo { get; set; } = string.Empty;
+    public string Conteudo { get; set; } = string.Empty;
+    public DateTime EnviadaEm { get; set; }
+    public bool Lida { get; set; }
 }

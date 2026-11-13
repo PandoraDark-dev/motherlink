@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MaternaApp.Views.ChatPage"
+             BackgroundColor="#F2F9F8"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <Grid Grid.Row="0"
+              BackgroundColor="#347F80"
+              Padding="20,25"
+              ColumnDefinitions="Auto,*">
+
+            <Button Text="‹"
+                    FontSize="30"
+                    TextColor="White"
+                    BackgroundColor="Transparent"
+                    Clicked="OnVoltarClicked"/>
+
+            <VerticalStackLayout Grid.Column="1"
+                                 VerticalOptions="Center"
+                                 Spacing="3">
+                <Label Text="Chat"
+                       FontSize="21"
+                       FontAttributes="Bold"
+                       TextColor="White"/>
+
+                <Label x:Name="lblContato"
+                       Text="Conversa"
+                       FontSize="13"
+                       TextColor="#E1F2EF"/>
+            </VerticalStackLayout>
+        </Grid>
+
+        <CollectionView x:Name="ListaMensagens"
+                        Grid.Row="1"
+                        Margin="15,10"
+                        SelectionMode="None">
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout VerticalOptions="Center"
+                                     HorizontalOptions="Center"
+                                     Spacing="8">
+                    <Label Text="Ainda não há mensagens."
+                           TextColor="#78908D"
+                           FontSize="15"/>
+                    <Label Text="Envie a primeira mensagem!"
+                           TextColor="#78908D"
+                           FontSize="13"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="0,5">
+                        <Border Padding="12"
+                                MaximumWidthRequest="290"
+                                HorizontalOptions="{Binding Alinhamento}"
+                                BackgroundColor="{Binding Cor}"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 14">
+
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="{Binding Conteudo}"
+                                       TextColor="{Binding CorTexto}"
+                                       FontSize="15"/>
+
+                                <Label Text="{Binding Horario}"
+                                       TextColor="{Binding CorHorario}"
+                                       FontSize="10"
+                                       HorizontalTextAlignment="End"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Grid Grid.Row="2"
+              Padding="12"
+              ColumnDefinitions="*,Auto"
+              BackgroundColor="White">
+
+            <Border Stroke="#D6E5E2"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 24"
+                    Padding="15,0"
+                    VerticalOptions="Center">
+
+                <Entry x:Name="txtMensagem"
+                       Placeholder="Digite sua mensagem..."
+                       TextColor="#294B49"
+                       PlaceholderColor="#91A7A3"
+                       BackgroundColor="Transparent"
+                       ReturnType="Send"
+                       Completed="OnEnviarClicked"/>
+            </Border>
+
+            <Button Grid.Column="1"
+                    Text="➤"
+                    FontSize="20"
+                    BackgroundColor="#347F80"
+                    TextColor="White"
+                    CornerRadius="25"
+                    WidthRequest="50"
+                    HeightRequest="50"
+                    Margin="8,0,0,0"
+                    Clicked="OnEnviarClicked"/>
+        </Grid>
+
+    </Grid>
+</ContentPage>

@@ -71,6 +71,41 @@ public partial class HomeGestantePage : ContentPage
 
     private async void OnChatTapped(object sender, EventArgs e)
     {
+        try
+        {
+            var consultas = await _api.ListarConsultasGestante(GestanteId);
+
+            var profissionalId = consultas
+                .OrderByDescending(c => c.Data)
+                .Select(c => c.ProfissionalId)
+                .FirstOrDefault();
+
+            if (profissionalId <= 0)
+            {
+                await DisplayAlert("Chat", "Nenhum profissional está vinculado às consultas desta gestante.", "OK");
+                return;
+            }
+
+            var profissionais = await _api.ListarProfissionais();
+            var profissional = profissionais.FirstOrDefault(p => p.Id == profissionalId);
+
+            if (profissional == null)
+            {
+                await DisplayAlert("Erro", "Profissional não encontrado.", "OK");
+                return;
+            }
+
+            await Navigation.PushAsync(new ChatPage(
+                GestanteId,
+                profissionalId,
+                GestanteId,
+                "gestante",
+                profissional.Nome));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erro", ex.Message, "OK");
+        }
     }
 
     private async void OnGuiaTapped(object sender, EventArgs e)
