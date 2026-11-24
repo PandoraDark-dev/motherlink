@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "BU7p2SL0zqw=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\pando\\Downloads\\Materna.API\\Materna.API.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\pando\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.12\\microsoft.aspnetcore.openapi.10.0.12.nupkg.sha512",
+    "C:\\Users\\pando\\.nuget\\packages\\microsoft.openapi\\2.12.0\\microsoft.openapi.2.12.0.nupkg.sha512"
+  ],
+  "logs": []
+}
